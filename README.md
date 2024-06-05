@@ -2,7 +2,7 @@
   <img src="https://i.ibb.co/0hfQZpd/aclready-logo.png" alt="ACLReady's Logo"/>
 </p>
 
-<p align="center">A simple tool to parse your paper, help fill the ACL responsible checklist, and reducing the likelihood of desk rejection.</p>
+<p align="center">A simple tool to parse your paper, help fill the ACL responsible checklist, and reduce the likelihood of desk rejection.</p>
 <p align="center">
 <img alt="version" src="https://img.shields.io/badge/version-0.1.0-green">
 <img alt="python" src="https://img.shields.io/badge/python-3.10-blue">
