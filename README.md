@@ -1,5 +1,7 @@
+<div align="center">
 ![Fabricator Logo](resources/aclready_logo.png#gh-dark-mode-only)
 ![Fabricator Logo](resources/aclready_logo.png#gh-light-mode-only)
+</div>
 
 <p align="center">A simple tool to parse your paper, help fill the ACL responsible checklist, and reducing the likelihood of desk rejection.</p>
 <p align="center">
