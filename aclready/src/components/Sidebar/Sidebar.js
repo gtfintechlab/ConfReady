@@ -100,7 +100,7 @@ if (window.confirm("Do you want to logout ?") == true) {
             <img src={aclLogo} className="h-[150px]" />
           </div>
           <p className="text-white text-center">
-            A simple tool to parse your paper, help fill the ACL responsible checklist, and avoid a desk rejection
+            A simple tool to parse your paper, help fill the ACL responsible checklist, and reducing the likelihood of desk rejection.
           </p>
           <div className="flex flex-row mt-4">
             <button className="text-white m-1 w-full border-2 px-2 rounded-lg">Upload paper</button>

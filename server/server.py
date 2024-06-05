@@ -5,7 +5,6 @@ import json
 import os
 import tempfile
 import re
-from pdftitle import get_title_from_file
 import spacy
 nlp = spacy.load("en_core_web_sm")
 
