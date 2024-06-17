@@ -2,7 +2,7 @@
   <img src="https://i.ibb.co/0hfQZpd/aclready-logo.png" alt="ACLReady's Logo"/>
 </p>
 
-<p align="center">A simple tool to parse your paper, help fill the ACL responsible checklist, and reduce the likelihood of desk rejection.</p>
+<p align="center">A simple tool to parse your paper and help fill the ACL responsible checklist.</p>
 <p align="center">
 <img alt="version" src="https://img.shields.io/badge/version-0.1.0-green">
 <img alt="python" src="https://img.shields.io/badge/python-3.10-blue">
@@ -20,7 +20,7 @@
 
 This repository:
 
-- is **an easy-to-use Llama powered web interface** which automates the daunting process of filling out an overlong conference specific checklist. If you want to save time, reduce effort and minimize the risk of getting desk rejected, you can use this tool to complement and aid your research journey.
+- is **an easy-to-use Llama powered web interface** which helps fill in the ACL checklist. If you want to save time and reduce effort, check out this tool to complement and aid your research journey.
 - is **highly flexible** and offers various adaptations and possibilities such as prompt customization, thereby, enabling developers to continue developing this tool for other conferences.
 
 ## Installation
@@ -28,7 +28,6 @@ This repository:
 ### Prerequisites
 
 - Conda (Miniconda or Anaconda)
-- Node.js (npm)
 
 ### Steps
 
@@ -37,46 +36,39 @@ This repository:
     ```bash
     git clone git@github.com:gtfintechlab/ACL_SystemDemonstrationChecklist.git
     cd ACL_SystemDemonstrationChecklist
-    cd aclready
     ```
 
 2. **Create and activate the conda environment**:
 
     ```bash
-    conda env create -f environment.yml
-    conda activate aclready_env
+   source install.sh
     ```
 
-3. **Install npm dependencies**:
+3. **Add your API keys**:
 
-    ```bash
-    npm install
-    ```
-
-4. **Add your API keys**:
-
-    - Create a `.env` file inside the `server` directory:
+    - Add whatever LLM inference provider API keys to the .env file inside the `server` directory:
 
     ```ini
     TOGETHERAI_API_KEY=your_together_ai_key_here
     OPENAI_API_KEY=your_openai_key_here
     ```
 
-5. **Run the Flask server**:
+## Run the App
+1. **Run the Flask server**:
 
     ```bash
     cd server
     python server.py
     ```
 
-6. **Run the Web Interface**:
+2. **Run the Web Interface**:
 
     ```bash
     cd aclready
     npm start
     ```
 
-7. **Access the API**:
+3. **Access the API**:
 
     The server will be running on `http://localhost:8080`.
 
