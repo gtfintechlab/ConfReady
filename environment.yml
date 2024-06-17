@@ -1,0 +1,12 @@
+name: aclready_env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - flask
+  - flask-cors
+  - pdfplumber
+  - openai
+  - nodejs
+  - python-dotenv

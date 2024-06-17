@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import aclLogo from '../../assets/aclready.png';
 import AuthModal from '../AuthModal/AuthModal';
 import { useStore } from '../../store';
@@ -8,6 +8,25 @@ export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useStore();
   const { user } = state;
+  const hiddenFileInput = useRef(null);
+  const [loadingFile, setLoadingFile] = useState(false);
+
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleChange = event => {
+    const fileUploaded = event.target.files[0];
+    let file_size = event.target.files[0].size;
+
+    setLoadingFile(true);
+
+    if(file_size>5000000) {
+      alert("File size should not exceed 5MB.")
+      setLoadingFile(false);
+      return;
+    }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,7 +111,7 @@ if (window.confirm("Do you want to logout ?") == true) {
 
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 justify-center items-center flex flex-col justify-between"
+        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 items-center flex flex-col justify-between"
         aria-label="Sidebar"
       >
         <div className="flex flex-col mt-12 justify-center items-center">
@@ -102,9 +121,25 @@ if (window.confirm("Do you want to logout ?") == true) {
           <p className="text-white text-center">
             A simple tool to parse your paper, help fill the ACL responsible checklist, and reducing the likelihood of desk rejection.
           </p>
-          <div className="flex flex-row mt-4">
-            <button className="text-white m-1 w-full border-2 px-2 rounded-lg">Upload paper</button>
-            <button className="text-black bg-white rounded-lg m-1 w-full">Export Response</button>
+          <div className="flex flex-col mt-4">
+          <input
+        type="file"
+        onChange={handleChange}
+        ref={hiddenFileInput}
+        style={{display: 'none'}}
+      />
+            <button onClick={handleClick} className="text-white m-1 w-full border-2 py-2 px-4 rounded-lg">{
+                loadingFile ? (
+                  <div class="container"><div class="loader">
+  <div></div>
+  <div></div>
+  <div></div>
+</div></div>
+                ):(
+                  <p>Upload paper</p>
+                )
+              }</button>
+            <button className="text-white border-2 rounded-lg py-2 px-4 m-1 w-full">Export Response</button>
           </div>
         </div>
         <div className="flex flex-col w-full justify-center items-center">

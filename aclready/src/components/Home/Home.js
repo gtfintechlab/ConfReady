@@ -9,7 +9,7 @@ function Home() {
 
   return (
     <>
-      <div className='bg-gray-200 h-fit fixed right-0 flex flex-col p-5 mr-5 rounded-full top-1/2 mt-[-70px] shadow-lg'>
+      <div className='bg-gray-100 h-fit fixed right-0 flex flex-col p-5 mr-5 rounded-full top-1/2 mt-[-70px] shadow-lg'>
         {['A', 'B', 'C', 'D', 'E'].map(stage => (
           <p key={stage}
              className={`text-xl font-semibold ${currentStage == stage ? "text-black" : "text-gray-400"} cursor-pointer ease-in duration-300 hover:text-gray-600`}

@@ -24,3 +24,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loader div{
+animation-iteration-count: infinite;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+background:#ffffff;
+  height:10px;
+  width:10px;
+  display:inline-block;
+  margin-left:2px;
+} 
+.loader div:first-child{
+   animation-name: wave-3;
+  margin-left:0px;
+}
+.loader div:nth-child(2){
+   animation-name: wave-1;
+}
+.loader div:last-child{
+   animation-name: wave-2;
+  
+}
+@keyframes wave-1 {
+  0%   {transform: translateY(0) skewY(-15deg)}
+  20%  {transform: translateY(-10px);opacity:0.75;}
+  40%  {transform: translateY(0) skewY(15deg) scaleY(1.5);opacity:0.5;}
+  80% {transform: translateY(10px);opacity:0.75;}
+  100% {transform: translateY(0) skewY(-15deg);opacity:1;}
+}
+@keyframes wave-2 {
+  0%   {transform: translateY(-10px);opacity:0.75;}
+  20%  {transform: translateY(0) skewY(15deg) scaleY(1.5);opacity:0.5;}
+  40%  {transform: translateY(10px);opacity:0.75;}
+  80% {transform: translateY(0) skewY(-15deg);opacity:1;}
+  100% {transform: translateY(-10px);opacity:0.75;}
+}
+@keyframes wave-3 {
+  0%   {transform: translateY(10px) ;opacity:0.75; }
+  20%  {transform: translateY(0) skewY(-15deg);opacity:1;}
+  40%  {transform: translateY(-10px);opacity:0.75;}
+  80% {transform: translateY(0) skewY(15deg) scaleY(1.5);opacity:0.5;}
+   100% {transform: translateY(10px);opacity:0.75;}
+}

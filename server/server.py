@@ -1,29 +1,35 @@
+import os
+from dotenv import load_dotenv
 import pdfplumber
 import json
-import os
 import tempfile
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 
+# Load environment variables from .env file
+load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
-togetherai_api_key = os.environ.get('TOGETHERAI_API_KEY')
+togetherai_api_key = os.getenv('TOGETHERAI_API_KEY')
+openai_api_key = os.getenv('OPENAI_API_KEY')
+
 client_together = OpenAI(api_key=togetherai_api_key, base_url='https://api.together.xyz')
 
 def parse_pdf(file_path):
     try:
         text = ""
         links = []
-        
+
         with pdfplumber.open(file_path) as pdf:
             for page in pdf.pages:
                 text += page.extract_text() + "\n"
                 for annot in page.annots:
                     if 'uri' in annot:
                         links.append(annot['uri'])
-        
+
         return {
             "text": text,
             "links": links
@@ -31,13 +37,24 @@ def parse_pdf(file_path):
     except Exception as e:
         return {"error": str(e)}
 
-def summarize_text(parsedText):
+def chunk_text(text, chunk_size=3000, overlap=500):
+    words = text.split()
+    chunks = []
+    start = 0
+    while start < len(words):
+        end = min(start + chunk_size, len(words))
+        chunk = words[start:end]
+        chunks.append(' '.join(chunk))
+        start += chunk_size - overlap
+    return chunks
+
+def summarize_chunk(chunk):
     prompt = f'''
     You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
 
-    First, summarize the provided research paper, which is delimited by triple backticks, in no more than 1500 tokens.
+    First, summarize the provided research paper chunk, which is delimited by triple backticks, in no more than 1500 tokens.
 
-    Research Paper: ```{parsedText}```
+    Research Paper Chunk: ```{chunk}```
     '''
 
     prompt_json = [{'role': 'user', 'content': prompt}]
@@ -55,6 +72,12 @@ def summarize_text(parsedText):
 
     return chat_completion.choices[0].message.content
 
+def summarize_text(parsedText):
+    chunks = chunk_text(parsedText)
+    summaries = [summarize_chunk(chunk) for chunk in chunks]
+    combined_summary = ' '.join(summaries)
+    return combined_summary
+
 def generate_prompt(summarizedText, question):
     prompt = f'''
     You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
@@ -68,8 +91,6 @@ def generate_prompt(summarizedText, question):
     Your response should be in JSON format with the keys "answer" (YES/NO) and "justification" (if YES, the section number; if NO, the justification).
     '''
     return prompt
-
-
 
 def ask_llm(prompt):
     prompt_json = [{'role': 'user', 'content': prompt}]
@@ -137,7 +158,6 @@ def upload_file():
         responses[question] = json.loads(response)
     
     return jsonify(responses)
-
 
 @app.route("/api", methods=["GET"])
 def hello_world():

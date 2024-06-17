@@ -20,29 +20,82 @@
 
 This repository:
 
-- is <b>an easy-to-use Llama powered web interface</b> which automates the daunting process of filling out an overlong conference specific checklist. If you want to save time, reduce effort and minimze the risk of getting desk rejected, you can use this tool to compliment and aid your research journey.
-- is <b>highly flexible</b> and offers various adaptions and possibilities such as
-prompt customization, thereby, enabling developers continue develop this tool for other conferences.
+- is **an easy-to-use Llama powered web interface** which automates the daunting process of filling out an overlong conference specific checklist. If you want to save time, reduce effort and minimize the risk of getting desk rejected, you can use this tool to complement and aid your research journey.
+- is **highly flexible** and offers various adaptations and possibilities such as prompt customization, thereby, enabling developers to continue developing this tool for other conferences.
 
 ## Installation
-To install and run the web interface or UI:
-```
-git clone git@github.com:gtfintechlab/ACL_SystemDemonstrationChecklist.git
-cd ACL_SystemDemonstrationChecklist
-cd aclready
-npm install
-npm start
-```
 
-To install and run the python server:
+### Prerequisites
+
+- Conda (Miniconda or Anaconda)
+- Node.js (npm)
+
+### Steps
+
+1. **Clone the repository** and navigate to the project directory:
+
+    ```bash
+    git clone git@github.com:gtfintechlab/ACL_SystemDemonstrationChecklist.git
+    cd ACL_SystemDemonstrationChecklist
+    cd aclready
+    ```
+
+2. **Create and activate the conda environment**:
+
+    ```bash
+    conda env create -f environment.yml
+    conda activate aclready_env
+    ```
+
+3. **Install npm dependencies**:
+
+    ```bash
+    npm install
+    ```
+
+4. **Add your API keys**:
+
+    - Create a `.env` file inside the `server` directory:
+
+    ```ini
+    TOGETHERAI_API_KEY=your_together_ai_key_here
+    OPENAI_API_KEY=your_openai_key_here
+    ```
+
+5. **Run the Flask server**:
+
+    ```bash
+    cd server
+    python server.py
+    ```
+
+6. **Run the Web Interface**:
+
+    ```bash
+    cd aclready
+    npm start
+    ```
+
+7. **Access the API**:
+
+    The server will be running on `http://localhost:8080`.
+
+### Folder Structure
+
 ```
-cd server
-python3 server.py
+aclready/
+├── environment.yml
+├── client/
+│   └── (client-side files)
+├── server/
+│   ├── server.py
+│   └── .env
+└── README.md
 ```
 
 ## Basic Concepts
 
-ACLReady aims to reduce the time and effort required by a researcher to fill the ACL Responsible NLP Research Checklist. Without taking away the freedom of the researcher to edit the checklist manually, we intend to ease this process through different mechanisms: an interative web interface, a language model and a generator:
-- <b>Interactive Web Interface</b>: A web interface with a sleek design entices the author to upload his/her research paper and analyse its issues with minimal effort.
-- <b>LLM</b>: We use [Together AI](https://www.together.ai) as our LLM interface. Together AI
-supports a wide range of LLMs including Llama, Mixtral Instruct, QWEN 1.5 ,and many more.
+ACLReady aims to reduce the time and effort required by a researcher to fill the ACL Responsible NLP Research Checklist. Without taking away the freedom of the researcher to edit the checklist manually, we intend to ease this process through different mechanisms: an interactive web interface, a language model, and a generator:
+
+- **Interactive Web Interface**: A web interface with a sleek design entices the author to upload his/her research paper and analyze its issues with minimal effort.
+- **LLM**: We use [Together AI](https://www.together.ai) as our LLM interface. Together AI supports a wide range of LLMs including Llama, Mixtral Instruct, QWEN 1.5, and many more.

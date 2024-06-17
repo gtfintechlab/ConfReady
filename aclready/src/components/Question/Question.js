@@ -36,7 +36,7 @@ function Question({ id, question_data, isRoot }) {
             <p className='times text-lg mb-4'>If you answer <b>Yes</b>, provide the section number; if you answer <b>No</b>, provide a justification.</p>
         )
       }
-      <div className='bg-gray-200 flex flex-row w-fit rounded-full mb-5'>
+      <div className='bg-gray-200 flex flex-row w-fit rounded mb-5'>
         <h1 className={`times mx-4 my-2 cursor-pointer text-gray-900 ease-in duration-300 hover:text-gray-600 ${choice ? "font-bold" : ""}`}
             onClick={() => handleChoiceChange(true)}>Yes</h1>
         <h1 className={`times mx-4 my-2 cursor-pointer text-gray-900 ease-in duration-300 hover:text-gray-600 ${!choice ? "font-bold" : ""}`}
