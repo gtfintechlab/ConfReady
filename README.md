@@ -38,7 +38,7 @@ This repository:
     cd ACL_SystemDemonstrationChecklist
     ```
 
-2. **Create and activate the conda environment**:
+2. **Run the installation script**:
 
     ```bash
    source install.sh
@@ -46,7 +46,7 @@ This repository:
 
 3. **Add your API keys**:
 
-    - Add whatever LLM inference provider API keys to the .env file inside the `server` directory:
+    - Add LLM inference provider API keys to the .env file inside the `server` directory.
 
     ```ini
     TOGETHERAI_API_KEY=your_together_ai_key_here
@@ -75,14 +75,22 @@ This repository:
 ### Folder Structure
 
 ```
-aclready/
+├── LICENSE.md
+├── README.md
+├── aclready
+│   ├── README.md
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   ├── src
+│   └── tailwind.config.js
 ├── environment.yml
-├── client/
-│   └── (client-side files)
-├── server/
-│   ├── server.py
-│   └── .env
-└── README.md
+├── install.sh
+├── resources
+│   └── aclready_logo.png
+└── server
+    └── server.py
 ```
 
 ## Basic Concepts
