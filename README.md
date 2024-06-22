@@ -5,7 +5,7 @@
 <p align="center">A simple tool to parse your paper and help fill the ACL responsible checklist.</p>
 <p align="center">
 <img alt="version" src="https://img.shields.io/badge/version-0.1.0-green">
-<img alt="python" src="https://img.shields.io/badge/python-3.10-blue">
+<img alt="python" src="https://img.shields.io/badge/python-3.11-blue">
 <img alt="Static Badge" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 <div align="center">

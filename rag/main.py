@@ -1,18 +1,15 @@
 import concurrent.futures
-from langchain_community.document_loaders import PyPDFDirectoryLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import DirectoryLoader
+#from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from langchain_together.embeddings import TogetherEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.prompts import ChatPromptTemplate
-from together import Together
-
 
 PDF_DIRECTORY_PATH = 'assets/docs'
 VECTOR_DB_PATH = 'assets/database'
-TOGETHER_API_KEY = 'ENTER KEY HERE'
+TOGETHER_API_KEY = '7fccdc0356437b145d9b3b3583bd963d1230b0c3987fdb0f7e7ec6c9dc84c564'
 EMBEDDING_MODEL_NAME = 'togethercomputer/m2-bert-80M-8k-retrieval'
-
 
 PROMPT_TEMPLATE = """
 Answer the question based only on the following context:
@@ -24,7 +21,6 @@ Answer the question based only on the following context:
 Answer the question based on the above context: {question}
 """
 
-
 def load_documents() -> list[Document]:
     """
     Load documents from the specified directory.
@@ -33,7 +29,7 @@ def load_documents() -> list[Document]:
         list[Document]: List of loaded documents.
     """
 
-    document_loader = PyPDFDirectoryLoader(PDF_DIRECTORY_PATH)
+    document_loader = DirectoryLoader(PDF_DIRECTORY_PATH)
     return document_loader.load()
 
 def split_documents(documents: list[Document]) -> list[Document]:
@@ -122,7 +118,6 @@ def direct_load(query: str) -> str:
     
     return response.choices[0].message.content
     
-
 def main():
     print('PDF Found')
     print(len(load_documents()))
