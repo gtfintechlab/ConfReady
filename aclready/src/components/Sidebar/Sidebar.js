@@ -1,32 +1,61 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import aclLogo from '../../assets/aclready.png';
 import AuthModal from '../AuthModal/AuthModal';
 import { useStore } from '../../store';
 import db, { auth } from '../../firebase';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useStore();
-  const { user } = state;
   const hiddenFileInput = useRef(null);
   const [loadingFile, setLoadingFile] = useState(false);
+  const [jsonContent, setJsonContent] = useState(null);
 
-  const handleClick = event => {
+  const handleClick = () => {
     hiddenFileInput.current.click();
   };
 
-  const handleChange = event => {
+  const handleChange = async (event) => {
     const fileUploaded = event.target.files[0];
-    let file_size = event.target.files[0].size;
+    let file_size = fileUploaded.size;
 
     setLoadingFile(true);
 
-    if(file_size>5000000) {
-      alert("File size should not exceed 5MB.")
+    if (file_size > 5000000) {
+      alert("File size should not exceed 5MB.");
       setLoadingFile(false);
       return;
     }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      const data = JSON.parse(content);
+      setJsonContent(data);
+
+      for (const key in data) {
+        dispatch({
+          type: 'SET_RESPONSE',
+          payload: {
+            id: key,
+            response: {
+              choice: true,
+              text: data[key]['justification']
+            }
+          }
+        });
+      }
+
+      setLoadingFile(false);
+    };
+    reader.readAsText(fileUploaded);
   };
+
+  useEffect(() => {
+    const data = require('./sample_output.json');
+    setJsonContent(data);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,7 +69,7 @@ export default function Sidebar() {
     <>
       <AuthModal open={open} onClose={handleClose} />
 
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      {/* <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
@@ -107,11 +136,12 @@ if (window.confirm("Do you want to logout ?") == true) {
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 items-center flex flex-col justify-between"
+        style={{borderTopRightRadius: 120}}
+        className="fixed top-0 left-0 z-40 w-72 h-screen pt-10 transition-transform -translate-x-full border-r sm:translate-x-0 bg-gray-800 border-gray-700 items-center flex flex-col justify-between"
         aria-label="Sidebar"
       >
         <div className="flex flex-col mt-12 justify-center items-center">
@@ -119,36 +149,34 @@ if (window.confirm("Do you want to logout ?") == true) {
             <img src={aclLogo} className="h-[150px]" />
           </div>
           <p className="text-white text-center">
-            A simple tool to parse your paper, help fill the ACL responsible checklist, and reducing the likelihood of desk rejection.
+            AI powered solution for seamlessly filling out the ACL Responsible Checklist.
           </p>
-          <div className="flex flex-col mt-4">
-          <input
+          </div>
+          <aside
+        style={{borderTopRightRadius: 120}}
+        className="z-40 w-72 h-screen mt-10 transition-transform -translate-x-full border-r sm:translate-x-0 bg-[#003057] border-[#003057] items-center flex flex-col"
+      >
+        <h1 className='text-white font-bold text-base mt-12'>Upload Document</h1>
+        <input
         type="file"
+        // accept=".tex"
         onChange={handleChange}
         ref={hiddenFileInput}
         style={{display: 'none'}}
       />
-            <button onClick={handleClick} className="text-white m-1 w-full border-2 py-2 px-4 rounded-lg">{
-                loadingFile ? (
-                  <div class="container"><div class="loader">
+        <div onClick={() =>handleClick()} className='cursor-pointer border-dotted m-6 py-28 rounded-sm border-2 border-white w-fit flex flex-col items-center'>
+        {loadingFile ? (
+                  <div class="container flex justify-center mb-7"><div class="loader">
   <div></div>
   <div></div>
   <div></div>
 </div></div>
                 ):(
-                  <p>Upload paper</p>
-                )
-              }</button>
-            <button className="text-white border-2 rounded-lg py-2 px-4 m-1 w-full">Export Response</button>
-          </div>
+                  <AddCircleIcon className='text-white' fontSize="large" />
+                )}
+          <p className='text-white text-center'>Upload or drag and drop your file here</p>
         </div>
-        <div className="flex flex-col w-full justify-center items-center">
-          <h1 className="text-white text-xl">Issue Inspector</h1>
-          <hr className="text-white m-5 w-1/3" />
-          <div className="h-[12pc] bg-black w-full cursor-pointer overflow-scroll py-2">
-            <h1 className="text-white">Upload paper to view results...</h1>
-          </div>
-        </div>
+      </aside>
       </aside>
     </>
   );

@@ -67,3 +67,17 @@ background:#ffffff;
   80% {transform: translateY(0) skewY(15deg) scaleY(1.5);opacity:0.5;}
    100% {transform: translateY(10px);opacity:0.75;}
 }
+
+
+progress {
+  width: 90px;
+  height : 3px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: gray;
+}
+
+progress::-webkit-progress-value {
+  background-color: #fff;
+}

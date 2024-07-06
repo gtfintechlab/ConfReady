@@ -9,7 +9,36 @@ const initialState = {
   aclQuestions: [],
   currentStage: 'A',
   responses: {},
+  sectionProgress: {}, // New state to track progress
   user: null,
+};
+
+const calculateProgress = (responses, aclQuestions) => {
+  const progress = {};
+
+  // Initialize progress count for each section
+  aclQuestions.forEach(section => {
+    const sectionId = section.id;
+    const numOfQuestions = section.quest.numOfQuestions;
+    progress[sectionId] = { total: numOfQuestions, answered: 0 };
+  });
+
+  // Count the number of answered questions in each section
+  for (const key in responses) {
+    for (const section of aclQuestions) {
+      const questionIds = Object.keys(section.quest.questions);
+      if (questionIds.includes(key) && responses[key].text) {
+        progress[section.id].answered += 1;
+      }
+    }
+  }
+
+  // Convert counts to percentage progress
+  for (const section in progress) {
+    progress[section] = (progress[section].answered / progress[section].total) * 100;
+  }
+
+  return progress;
 };
 
 const reducer = (state, action) => {
@@ -25,12 +54,15 @@ const reducer = (state, action) => {
         currentStage: action.payload,
       };
     case 'SET_RESPONSE':
+      const updatedResponses = {
+        ...state.responses,
+        [action.payload.id]: action.payload.response,
+      };
+      const updatedProgress = calculateProgress(updatedResponses, state.aclQuestions);
       return {
         ...state,
-        responses: {
-          ...state.responses,
-          [action.payload.id]: action.payload.response,
-        },
+        responses: updatedResponses,
+        sectionProgress: updatedProgress,
       };
     case 'SET_USER':
       return {
