@@ -5,7 +5,8 @@ import { useStore } from '../../store';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DownloadIcon from '@mui/icons-material/Download';
-import LinearProgress from '@mui/material/LinearProgress';
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 function Home() {
   const { state, dispatch } = useStore();
@@ -42,11 +43,17 @@ function Home() {
           style={{ transition: 'all 0.3s ease-in-out' }} // Add transition here
         >
             {stage}
-            <progress
+            {/* <progress
               className='mx-4 rounded-lg'
               value={sectionProgress[stage] || 0}
               max="100"
-            ></progress>
+            ></progress> */}
+            <div className="relative h-1 bg-gray-400 rounded-full overflow-hidden mx-4 w-24">
+              <div
+                className="progress-bar h-1 bg-white z-10"
+                style={{ width: `${sectionProgress[stage] || 0}%` }}
+              ></div>
+            </div>
           </div>
         ))}
       </div>

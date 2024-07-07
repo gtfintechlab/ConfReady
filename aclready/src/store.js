@@ -9,7 +9,7 @@ const initialState = {
   aclQuestions: [],
   currentStage: 'A',
   responses: {},
-  sectionProgress: {}, // New state to track progress
+  sectionProgress: {},
   user: null,
 };
 

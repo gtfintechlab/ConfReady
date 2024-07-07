@@ -72,6 +72,11 @@ background:#ffffff;
 progress {
   width: 90px;
   height : 3px;
+  transition: width 0.5s ease-in-out;
+}
+
+.progress-bar {
+  transition: width 0.3s ease-in-out;
 }
 
 progress::-webkit-progress-bar {
