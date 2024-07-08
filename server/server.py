@@ -1,129 +1,18 @@
+import logging
 import os
-from dotenv import load_dotenv
 import pdfplumber
 import json
 import tempfile
+import subprocess
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 
-# Load environment variables from .env file
-load_dotenv()
-
 app = Flask(__name__)
 CORS(app)
 
-togetherai_api_key = os.getenv('TOGETHERAI_API_KEY')
-openai_api_key = os.getenv('OPENAI_API_KEY')
-
-client_together = OpenAI(api_key=togetherai_api_key, base_url='https://api.together.xyz')
-
-def parse_pdf(file_path):
-    try:
-        text = ""
-        links = []
-
-        with pdfplumber.open(file_path) as pdf:
-            for page in pdf.pages:
-                text += page.extract_text() + "\n"
-                for annot in page.annots:
-                    if 'uri' in annot:
-                        links.append(annot['uri'])
-
-        return {
-            "text": text,
-            "links": links
-        }
-    except Exception as e:
-        return {"error": str(e)}
-
-def ask_llm(prompt):
-    prompt_json = [{'role': 'user', 'content': prompt}]
-
-    model_source = 'meta-llama'
-    model_name = 'Llama-3-70b-chat-hf'
-    model_str = f'{model_source}/{model_name}'
-
-    chat_completion = client_together.chat.completions.create(
-        model=model_str,
-        messages=prompt_json,
-        temperature=0,
-        max_tokens=512
-    )
-
-    return chat_completion.choices[0].message.content
-
-def prompt_discuss_limitations(parsedText):
-    prompt = f'''
-    You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
-
-    Your task is to analyze the provided research paper and answer the following question from the checklist: "Did you discuss the limitations of your work?"
-
-    If the answer is YES, provide the section number. If the answer is NO, provide a justification.
-
-    Research Paper: ```{parsedText}```
-
-    Your response should be in JSON format with the keys "answer" (YES/NO) and "justification" (if YES, the section number; if NO, the justification).
-    '''
-    return ask_llm(prompt)
-
-def prompt_discuss_potential_risks(parsedText):
-    prompt = f'''
-    You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
-
-    Your task is to analyze the provided research paper and answer the following question from the checklist: "Did you discuss any potential risks of your work?"
-
-    If the answer is YES, provide the section number. If the answer is NO, provide a justification.
-
-    Research Paper: ```{parsedText}```
-
-    Your response should be in JSON format with the keys "answer" (YES/NO) and "justification" (if YES, the section number; if NO, the justification).
-    '''
-    return ask_llm(prompt)
-
-def prompt_summarize_claims(parsedText):
-    prompt = f'''
-    You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
-
-    Your task is to analyze the provided research paper and answer the following question from the checklist: "Do the abstract and introduction summarize the paper’s main claims?"
-
-    If the answer is YES, provide the section number. If the answer is NO, provide a justification.
-
-    Research Paper: ```{parsedText}```
-
-    Your response should be in JSON format with the keys "answer" (YES/NO) and "justification" (if YES, the section number; if NO, the justification).
-    '''
-    return ask_llm(prompt)
-
-def prompt_cite_creators(parsedText):
-    prompt = f'''
-    You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
-
-    Your task is to analyze the provided research paper and answer the following question from the checklist: "Did you cite the creators of artifacts you used?"
-
-    If the answer is YES, provide the section number. If the answer is NO, provide a justification.
-
-    Research Paper: ```{parsedText}```
-
-    Your response should be in JSON format with the keys "answer" (YES/NO) and "justification" (if YES, the section number; if NO, the justification).
-    '''
-    return ask_llm(prompt)
-
-def prompt_discuss_license(parsedText):
-    prompt = f'''
-    You are an assistant to a researcher who intends to submit their research paper to the ACL Conference. To avoid desk rejection, the researcher wants to ensure their paper meets the benchmarks set by the Responsible NLP Research Checklist.
-
-    Your task is to analyze the provided research paper and answer the following question from the checklist: "Did you discuss the license or terms for use and/or distribution of any artifacts?"
-
-    If the answer is YES, provide the section number. If the answer is NO, provide a justification.
-
-    Research Paper: ```{parsedText}```
-
-    Your response should be in JSON format with the keys "answer" (YES/NO) and "justification" (if YES, the section number; if NO, the justification).
-    '''
-    return ask_llm(prompt)
-
-# Add more function questions as needed
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 @app.route("/api/upload", methods=["POST"])
 def upload_file():
@@ -137,30 +26,34 @@ def upload_file():
     # Save the uploaded file to a temporary location
     temp_file_path = os.path.join(tempfile.gettempdir(), file.filename)
     file.save(temp_file_path)
+    logging.info(f"File saved to {temp_file_path}")
 
-    # Process the PDF file with the saved path
-    parsed_result = parse_pdf(temp_file_path)
-    if 'error' in parsed_result:
-        return jsonify({'error': parsed_result['error']})
+    # Call the external Python script
+    try:
+        # Outputs json to '../aclready/src/components/Sidebar/sample_output' + '.json'
+        # This is .gitignored if you push to github. We should changed
+        subprocess.run(
+            ['python', 'process_file.py', temp_file_path],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        # temporary output (hardcoded for now)
+        output_file_path = '../aclready/src/components/Sidebar/sample_output' + '.json'
+        logging.info(f"Output JSON file saved to {output_file_path}")
 
-    parsed_text = parsed_result["text"]
+        with open(output_file_path, 'r') as json_file:
+            data = json.load(json_file)
+        
+        return jsonify(data), 200
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error processing file: {e.stderr}")
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
 
-    responses = {
-        "Discuss Limitations": json.loads(prompt_discuss_limitations(parsed_text)),
-        "Discuss Potential Risks": json.loads(prompt_discuss_potential_risks(parsed_text)),
-        "Summarize Claims": json.loads(prompt_summarize_claims(parsed_text)),
-        "Cite Creators": json.loads(prompt_cite_creators(parsed_text)),
-        "Discuss License": json.loads(prompt_discuss_license(parsed_text)),
-        # Add more question responses as needed
-    }
+    return jsonify({'message': 'File processed successfully'}), 200
 
-    return jsonify(responses)
 
-@app.route("/api", methods=["GET"])
-def hello_world():
-    return jsonify({
-        'message': 'Hello World'
-    })
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)

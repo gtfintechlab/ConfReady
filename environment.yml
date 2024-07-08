@@ -10,17 +10,10 @@ dependencies:
     - flask
     - flask_cors
     - jupyterlab # For convienence, this is not needed for application to run
-    - langchain
-    - langchain-chroma
-    - langchain-community
-    - langchain-text-splitters
-    - langchain-openai
-    - langchain-together
+    - llama-index
+    - matplotlib #llama index wants this or server.py wants this for running external python file
     - openai
-    - pdfplumber
-    - pylatexenc
+    - pylatexenc # read latex (.tex) files
     - python-dotenv
-    - sentence-transformers
-    - transformers
 
 
