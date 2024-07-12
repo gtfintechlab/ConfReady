@@ -31,6 +31,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Pyhton Formatter
+.ruff_cache
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
