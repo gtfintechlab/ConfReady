@@ -23,15 +23,19 @@ import os
 from collections import OrderedDict
 
 from llama_index.core import Document, Settings, get_response_synthesizer
-from llama_index.core.extractors import (QuestionsAnsweredExtractor,
-                                         SummaryExtractor)
-from llama_index.core.indices.query.query_transform.base import \
-    StepDecomposeQueryTransform
+from llama_index.core.extractors import QuestionsAnsweredExtractor, SummaryExtractor
+from llama_index.core.indices.query.query_transform.base import (
+    StepDecomposeQueryTransform,
+)
+
 # Semantic Chunking: # https://docs.llamaindex.ai/en/stable/module_guides/loading/node_parsers/modules/?h=tokentextsplitter#tokentextsplitter
 # Semantic similarity might be easier to work with so many prompts and with multiple pdf lengths ()
 #
 from llama_index.core.node_parser import (  # This defaults to SentenceSplitter basically anyways
-    SemanticSplitterNodeParser, SentenceSplitter, SimpleNodeParser)
+    SemanticSplitterNodeParser,
+    SentenceSplitter,
+    SimpleNodeParser,
+)
 from llama_index.core.postprocessor import LLMRerank
 from llama_index.core.postprocessor.types import BaseNodePostprocessor
 from pylatexenc.latex2text import LatexNodes2Text
@@ -60,18 +64,21 @@ import nest_asyncio
 import pandas as pd
 from IPython.display import HTML, display
 from llama_index.core import QueryBundle, VectorStoreIndex
-from llama_index.core.evaluation import (EmbeddingQAFinetuneDataset,
-                                         generate_question_context_pairs)
+from llama_index.core.evaluation import (
+    EmbeddingQAFinetuneDataset,
+    generate_question_context_pairs,
+)
+
 # Need to modify so we can be sure it counts regular expression stuff
 from llama_index.core.postprocessor import KeywordNodePostprocessor
+
 # https://docs.llamaindex.ai/en/stable/examples/query_engine/pdf_tables/recursive_retriever/ (good tutorial for figuring things out and explaining in paper)
-from llama_index.core.query_engine import (MultiStepQueryEngine,
-                                           RetrieverQueryEngine)
+from llama_index.core.query_engine import MultiStepQueryEngine, RetrieverQueryEngine
 from llama_index.core.response.notebook_utils import display_source_node
-from llama_index.core.retrievers import (RecursiveRetriever,
-                                         VectorIndexRetriever)
-from llama_index.embeddings.openai import \
-    OpenAIEmbedding  # Need api key for this and we can change later if needed.
+from llama_index.core.retrievers import RecursiveRetriever, VectorIndexRetriever
+from llama_index.embeddings.openai import (
+    OpenAIEmbedding,
+)  # Need api key for this and we can change later if needed.
 from llama_index.llms.openai import OpenAI
 
 nest_asyncio.apply()
@@ -79,8 +86,12 @@ nest_asyncio.apply()
 import re
 
 from llama_index.core.embeddings import resolve_embed_model
-from llama_index.core.schema import (IndexNode, NodeRelationship,
-                                     RelatedNodeInfo, TextNode)
+from llama_index.core.schema import (
+    IndexNode,
+    NodeRelationship,
+    RelatedNodeInfo,
+    TextNode,
+)
 
 
 def process_file(filename):
