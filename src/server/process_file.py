@@ -1,29 +1,24 @@
 import argparse
 import json
 import os
+import re
 from collections import OrderedDict
 
-from llama_index.core import Document, Settings, get_response_synthesizer
-from llama_index.core.extractors import QuestionsAnsweredExtractor, SummaryExtractor
-from llama_index.core.indices.query.query_transform.base import (
-    StepDecomposeQueryTransform,
-)
-
-# Semantic Chunking: # https://docs.llamaindex.ai/en/stable/module_guides/loading/node_parsers/modules/?h=tokentextsplitter#tokentextsplitter
-# Semantic similarity might be easier to work with so many prompts and with multiple pdf lengths ()
-#
-from llama_index.core.node_parser import (  # This defaults to SentenceSplitter basically anyways
-    SemanticSplitterNodeParser,
-    SentenceSplitter,
-    SimpleNodeParser,
-)
+import nest_asyncio
+from llama_index.core import VectorStoreIndex, get_response_synthesizer
+from llama_index.core.node_parser import SemanticSplitterNodeParser 
 from llama_index.core.postprocessor import LLMRerank
-from llama_index.core.postprocessor.types import BaseNodePostprocessor
-from pylatexenc.latex2text import LatexNodes2Text
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core.retrievers import RecursiveRetriever
+from llama_index.embeddings.openai import OpenAIEmbedding
+from llama_index.llms.openai import OpenAI
+from llama_index.core.schema import (
+    IndexNode, 
+    NodeRelationship,
+    RelatedNodeInfo, 
+    TextNode
+)
 
-
-# Current github issue here (rerank is still useful) :
-# https://github.com/run-llama/llama_index/issues/11093
 class SafeLLMRerank:
     def __init__(self, choice_batch_size=5, top_n=2):
         self.choice_batch_size = choice_batch_size
@@ -41,36 +36,7 @@ class SafeLLMRerank:
             return nodes
 
 
-import nest_asyncio
-from llama_index.core import QueryBundle, VectorStoreIndex
-from llama_index.core.evaluation import (
-    EmbeddingQAFinetuneDataset,
-    generate_question_context_pairs,
-)
-
-# Need to modify so we can be sure it counts regular expression stuff
-from llama_index.core.postprocessor import KeywordNodePostprocessor
-
-# https://docs.llamaindex.ai/en/stable/examples/query_engine/pdf_tables/recursive_retriever/ (good tutorial for figuring things out and explaining in paper)
-from llama_index.core.query_engine import MultiStepQueryEngine, RetrieverQueryEngine
-from llama_index.core.response.notebook_utils import display_source_node
-from llama_index.core.retrievers import RecursiveRetriever, VectorIndexRetriever
-from llama_index.embeddings.openai import (
-    OpenAIEmbedding,
-)  # Need api key for this and we can change later if needed.
-from llama_index.llms.openai import OpenAI
-
 nest_asyncio.apply()
-
-import re
-
-from llama_index.core.embeddings import resolve_embed_model
-from llama_index.core.schema import (
-    IndexNode,
-    NodeRelationship,
-    RelatedNodeInfo,
-    TextNode,
-)
 
 
 def process_file(filename):
@@ -719,8 +685,6 @@ def process_file(filename):
     print(prompt_dict["C4"])
 
     """## Select Embedding Model and LLM"""
-
-    # Local embedding model
 
     embed_model = OpenAIEmbedding()
 
