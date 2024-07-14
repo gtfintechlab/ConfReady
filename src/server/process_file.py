@@ -81,8 +81,6 @@ def process_file(filename):
 
     """## Load Data and Setup"""
 
-    # filename = '/content/drive/MyDrive/Jobs/PhD/Research/Publications/EMNLP_2024_Demonstration/latex/FOMCacl2023.tex'
-    # filename = '/content/drive/MyDrive/Jobs/PhD/Research/Publications/EMNLP_2024_Demonstration/latex/FiNER.tex'
 
     class SectionNumberer:
         """
@@ -723,7 +721,6 @@ def process_file(filename):
     """## Select Embedding Model and LLM"""
 
     # Local embedding model
-    # embed_model = resolve_embed_model("local:BAAI/bge-large-en-v1.5")
 
     embed_model = OpenAIEmbedding()
 
@@ -733,11 +730,8 @@ def process_file(filename):
     llm = OpenAI(api_key=openai_api_key, model=model_name, chunk_size_limit=2048)
 
     # This is here for when we implement together ai into api.
-    # client_together = OpenAI(api_key=togetherai_api_key, base_url='https://api.together.xyz')
 
     # Testing for LLMRerank with bad documentation
-    # Settings.llm = OpenAI(temperature=0, model="gpt-3.5-turbo")
-    # Settings.chunk_size = 1024
 
     """# Chunk References: Smaller Child Chunks Referring to Bigger Parent Chunk
 
@@ -762,8 +756,6 @@ def process_file(filename):
     ]
 
     # chunk_overlap is something to tune
-    # sub_chunk_sizes = [512]
-    # sub_node_parsers = [SentenceSplitter(chunk_size=c, chunk_overlap = 400) for c in sub_chunk_sizes]
 
     all_nodes = []
 
