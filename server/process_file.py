@@ -450,14 +450,14 @@ def process_file(filename):
 
     prompt_instruction = f"""If the the answer is 'YES', provide the section name.
     Only return valid section names which are {section_names_text}.
-    If the answer is 'NO' or 'NOT APPLICABLE', the section name is 'None'.
+    If the answer is 'NO' or 'NOT APPLICABLE', then output nothing.
     Provide a step by step justification for the answer.
     Format your response as a JSON object with 'answer', 'section name', and 'justification' as the keys.
     If the information isn't present, use 'unknown' as the value."""
 
     prompt_instruction_A3 = f"""If the the answer is 'YES', provide the section name.
     Only return valid section names which are '{combined_node_id}'.
-    If the answer is 'NO' or 'NOT APPLICABLE', the section name is 'None'.
+    If the answer is 'NO' or 'NOT APPLICABLE', then output nothing.
     Provide a step by step justification for the answer.
     Format your response as a JSON object with 'answer', 'section name', and 'justification' as the keys.
     If the information isn't present, use 'unknown' as the value."""
