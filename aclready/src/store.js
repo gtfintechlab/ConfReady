@@ -6,52 +6,57 @@ import { onAuthStateChanged } from 'firebase/auth';
 const StoreContext = createContext();
 
 const initialState = {
-  aclQuestions: [],
+  confQuestions: [],
   currentStage: 'A',
-  responses: {'B': {'choice': true }, 'C': {'choice': true }, 'D': {'choice': true }, 'E': {'choice': true }},
+  responses: {},
   sectionProgress: {},
   user: null,
   timeTaken: '',
-  issues: {}
+  issues: {},
+  checklistName: 'aclchecklist',
+  llmGenerated: 0,
+  bottomReached: {'A':0,  'B': 0, 'C': 0, 'D': 0, 'E': 0},
+  downloadEnabled: 0,
 };
 
-const calculateProgress = (responses, aclQuestions) => {
+const calculateProgress = (responses, questions) => {
   const progress = {};
-
-  // Initialize progress count for each section
-  aclQuestions.forEach(section => {
+  questions.forEach(section => {
     const sectionId = section.id;
     const numOfQuestions = section.quest.numOfQuestions;
     progress[sectionId] = { total: numOfQuestions, answered: 0 };
   });
-
-  // Count the number of answered questions in each section
   for (const key in responses) {
-    for (const section of aclQuestions) {
+    for (const section of questions) {
       const questionIds = Object.keys(section.quest.questions);
       if (questionIds.includes(key) && responses[key].text) {
         progress[section.id].answered += 1;
       }
     }
   }
-
-  // Convert counts to percentage progress
   for (const section in progress) {
     progress[section] = (progress[section].answered / progress[section].total) * 100;
   }
-
   return progress;
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_QUESTIONS':
+      const initialResponses = action.payload.reduce((acc, section) => {
+        const questionIds = Object.keys(section.quest.questions);
+        questionIds.forEach((qid) => {
+          acc[qid] = { choice: true, text: '' };
+        });
+        return acc;
+      }, {});
       return {
         ...state,
-        aclQuestions: action.payload,
+        confQuestions: action.payload,
+        responses: initialResponses,
       };
     case 'SET_ISSUES':
-       return {
+      return {
         ...state,
         issues: action.payload,
       };
@@ -61,36 +66,69 @@ const reducer = (state, action) => {
         currentStage: action.payload,
       };
     case 'SET_TIME':
-      return{
+      return {
         ...state,
-        timeTaken: action.payload
+        timeTaken: action.payload,
       };
     case 'SET_RESPONSE':
       const updatedResponses = {
         ...state.responses,
         [action.payload.id]: action.payload.response,
       };
-      const updatedProgress = calculateProgress(updatedResponses, state.aclQuestions);
+      const updatedProgress = calculateProgress(updatedResponses, state.confQuestions);
       return {
         ...state,
         responses: updatedResponses,
         sectionProgress: updatedProgress,
       };
     case 'RESET_RESPONSE':
+      const resetResponses = Object.keys(state.responses).reduce((acc, key) => {
+        acc[key] = { choice: true, text: '' };
+        return acc;
+      }, {});
       return {
         ...state,
-        responses: {'B': {'choice': true }, 'C': {'choice': true }, 'D': {'choice': true }, 'E': {'choice': true }}
-      }
+        responses: resetResponses,
+      };
     case 'RESET_PROGRESS':
       return {
         ...state,
-        sectionProgress: {}
-      }
+        sectionProgress: {},
+      };
+    case 'RESET_BOTTOM_REACHED':
+      return {
+        ...state,
+        bottomReached: {},
+      };
+    case 'SET_BOTTOM_REACHED':
+      const newBottomReached = {...state.bottomReached, [action.payload.section]: action.payload.value};
+
+      const downloadEnabled = Object.values(newBottomReached).every(value => value === 1) ? 1 : 0;
+      return {
+        ...state,
+        bottomReached: newBottomReached,
+        downloadEnabled: downloadEnabled,
+      };
+    case 'SET_BOTTOM_INITIAL_STATE':
+      return {
+        ...state,
+        bottomReached: action.payload,
+      };
     case 'SET_USER':
       return {
         ...state,
         user: action.payload,
       };
+    case 'SET_CHECKLIST':
+      return {
+        ...state,
+        checklistName: action.payload,
+      };
+    case 'SET_LLM_GENERATION':
+      return {
+        ...state,
+        llmGenerated: action.payload,
+      }
     default:
       return state;
   }
@@ -102,18 +140,24 @@ export const StoreProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'aclchecklist'));
+        const querySnapshot = await getDocs(collection(db, state.checklistName));
         const questions = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           quest: doc.data(),
         }));
-        dispatch({ type: 'SET_QUESTIONS', payload: questions });
+        if (questions.length === 0) {
+          console.error('No questions found in the selected checklist.');
+        } else {
+          dispatch({ type: 'SET_QUESTIONS', payload: questions });
+        }
       } catch (error) {
-        console.error('Error fetching ACL questions:', error);
+        console.error('Error fetching questions:', error);
       }
     };
 
-    fetchData();
+    if (state.checklistName) {
+      fetchData();
+    }
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -130,7 +174,7 @@ export const StoreProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [state.checklistName]);
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>

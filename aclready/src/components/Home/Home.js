@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import Question from '../Question/Question';
 import { useStore } from '../../store';
@@ -9,11 +9,19 @@ import { saveAs } from 'file-saver';
 
 function Home() {
   const { state, dispatch } = useStore();
-  const { responses, aclQuestions, currentStage, sectionProgress, timeTaken } = state;
-  const listHeader = ['A', 'B', 'C', 'D', 'E'];
+  const { responses, confQuestions, currentStage, sectionProgress, timeTaken, checklistName, llmGenerated } = state;
+  const [listHeader, setListHeader] = useState(['A', 'B', 'C', 'D', 'E']);
 
   useEffect(() => {
-    aclQuestions.forEach(({id, quest}) => {
+    if(checklistName == 'aclchecklist') {
+      setListHeader(['A', 'B', 'C', 'D', 'E'])
+    } else if(checklistName == 'neurips-checklist-a') {
+      setListHeader(['1', '2', '3', '4', '5'])
+    }
+  }, [checklistName])
+
+  useEffect(() => {
+    confQuestions.forEach(({id, quest}) => {
       Object.keys(quest.questions).sort((a, b) => {
         const numA = parseInt(a.slice(1), 10);
         const numB = parseInt(b.slice(1), 10);
@@ -33,7 +41,7 @@ function Home() {
       markdown += `${timeTaken}\n\n`
     }
 
-    aclQuestions.forEach(({ id, quest }) => {
+    confQuestions.forEach(({ id, quest }) => {
       markdown += `## Section ${id}: ${quest.title}\n\n`;
 
       Object.keys(quest.questions).sort((a, b) => {
@@ -64,13 +72,31 @@ function Home() {
     saveAs(blob, 'acl_responses.md');
   };
 
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    
+    if (scrollTop + clientHeight === scrollHeight) {
+      // Dispatch action to set bottomReached for current section
+      dispatch({ type: 'SET_BOTTOM_REACHED', payload: { section: currentStage, value: 1 } });
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [currentStage]); // Re-attach when currentStage changes
+  
+
   return (
     <>
       <Sidebar />
       <div className='absolute height-fultop-0 bottom-72 w-full' />
       <div className="p-4 sm:ml-72 mt-10">
         <div className='rounded mr-5'>
-          {aclQuestions && aclQuestions.map(({ id, quest }) => {
+          {confQuestions && confQuestions.map(({ id, quest }) => {
             if (id == currentStage) {
               return (
                 <div key={id}>
@@ -85,11 +111,6 @@ function Home() {
           style={{ transition: 'all 0.3s ease-in-out' }} // Add transition here
         >
             {stage}
-            {/* <progress
-              className='mx-4 rounded-lg'
-              value={sectionProgress[stage] || 0}
-              max="100"
-            ></progress> */}
             <div className="relative h-1 bg-gray-400 rounded-full overflow-hidden mx-4 w-24">
               <div
                 className="progress-bar h-1 bg-white z-10"
@@ -118,18 +139,33 @@ function Home() {
                       </div>
                     ))}
 
-                    {quest.titleResponse == 0 && Object.entries(quest.questions)
-                    .sort((a, b) => {
-                      const numA = parseInt(a[0].slice(1), 10);
-                      const numB = parseInt(b[0].slice(1), 10);
-                      return numA - numB;
-                    })
-                    .map(([id2, question_data]) => (
-                      <div key={id2}>
-                        <Question id={id2} question_data={question_data} isRoot={false} className="mt-10" />
-                        <hr className='my-6 mb-14' />
-                      </div>
-                    ))}
+{
+  quest.titleResponse == 0 && Object.entries(quest.questions)
+    .sort((a, b) => {
+      const extractParts = (key) => {
+        const match = key.match(/^(\d+)\.\s*\((\w)\)|^([A-Za-z])(\d+)$/);
+        if (match) {
+          if (match[1]) {
+            return [parseInt(match[1], 10), match[2]];
+          } else {
+            return [parseInt(match[4], 10), match[3]];
+          }
+        }
+        return [Infinity, ''];
+      };
+
+      const [numA, subA] = extractParts(a[0]);
+      const [numB, subB] = extractParts(b[0]);
+      if (numA !== numB) return numA - numB;
+      return subA.localeCompare(subB);
+    })
+    .map(([id2, question_data]) => (
+      <div key={id2}>
+        <Question id={id2} question_data={question_data} isRoot={false} className="mt-10" />
+        <hr className='my-6 mb-14' />
+      </div>
+    ))
+}
 
                     </div>
                 </div>
@@ -140,21 +176,23 @@ function Home() {
         </div>
         <div className='flex flex-row justify-between px-10 align-center mb-10'>
             <button onClick={() => {
-              const listHeader = ['A', 'B', 'C', 'D', 'E'];
           let nextIndex = (listHeader.indexOf(currentStage) - 1);
           if(nextIndex < 0) nextIndex = 0;
           dispatch({ type: 'SET_CURRENT_STAGE', payload: listHeader[nextIndex] })
-            }} className={`flex flex-row items-center justify-center text-lg ${currentStage == 'A' && 'opacity-20'}`}><ArrowBackIosNewIcon />&nbsp;&nbsp;Previous Section</button>
+            }} className={`flex flex-row items-center justify-center text-lg ${currentStage == listHeader[0] && 'opacity-20'}`}><ArrowBackIosNewIcon />&nbsp;&nbsp;Previous Section</button>
             
-            <button className={`relative right-0 ${currentStage == 'E' && 'hidden'} text-lg`} onClick={() => {
-              const listHeader = ['A', 'B', 'C', 'D', 'E'];
+            <button className={`relative right-0 ${currentStage == listHeader[listHeader.length - 1] && 'hidden'} text-lg`} onClick={() => {
               let nextIndex = (listHeader.indexOf(currentStage) + 1);
               dispatch({ type: 'SET_CURRENT_STAGE', payload: listHeader[nextIndex] })
             }}>Next Section&nbsp;&nbsp;<ArrowForwardIosIcon /></button>
-            {
-          currentStage == 'E' && (
-            <button onClick={handleDownload} className='bg-black text-white p-3 rounded-full'>Download Document&nbsp;&nbsp;<DownloadIcon /></button>
-          )
+{
+          currentStage == listHeader[listHeader.length - 1] && (
+<button 
+          onClick={handleDownload} 
+          className={`bg-black text-white p-3 rounded-full ${!state.downloadEnabled && llmGenerated && 'opacity-50 cursor-not-allowed'}`}
+          disabled={!state.downloadEnabled && llmGenerated}>
+            Download Document&nbsp;&nbsp;<DownloadIcon />
+        </button>          )
         }
           </div>
       </div>
