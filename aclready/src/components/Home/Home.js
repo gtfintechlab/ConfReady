@@ -17,6 +17,8 @@ function Home() {
       setListHeader(['A', 'B', 'C', 'D', 'E'])
     } else if(checklistName == 'neurips-checklist-a') {
       setListHeader(['1', '2', '3', '4', '5'])
+    } else if(checklistName == 'neurips-checklist-b') {
+      setListHeader(['1', '2'])
     }
   }, [checklistName])
 
@@ -189,8 +191,8 @@ function Home() {
           currentStage == listHeader[listHeader.length - 1] && (
 <button 
           onClick={handleDownload} 
-          className={`bg-black text-white p-3 rounded-full ${!state.downloadEnabled && llmGenerated && 'opacity-50 cursor-not-allowed'}`}
-          disabled={!state.downloadEnabled && llmGenerated}>
+          className={`bg-black text-white p-3 rounded-full ${!state.downloadEnabled && 'opacity-50 cursor-not-allowed'}`}
+          disabled={!state.downloadEnabled}>
             Download Document&nbsp;&nbsp;<DownloadIcon />
         </button>          )
         }

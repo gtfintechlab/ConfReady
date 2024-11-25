@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import aclLogo from '../../assets/aclready.png';
+import confReadyLogo from '../../assets/confready.png';
 import AuthModal from '../AuthModal/AuthModal';
 import { useStore } from '../../store';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -24,6 +24,7 @@ const MenuProps = {
 const checklists = [
   'Association for Computational Linguistics (ACL)',
   'NeurIPS',
+  'NeurIPS Datasets and Benchmarks',
 ];
 
 function getStyles(name, checklistName, theme) {
@@ -174,6 +175,13 @@ export default function Sidebar() {
       dispatch({type: 'SET_LLM_GENERATION', payload: 0});
       dispatch({type: 'RESET_BOTTOM_REACHED'});
       dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0}});
+    } else if(selectedChecklist === 'NeurIPS Datasets and Benchmarks') {
+      dispatch({ type: 'SET_CHECKLIST', payload: 'neurips-checklist-b' });
+      dispatch({type: 'SET_CURRENT_STAGE', payload: '1'});
+      dispatch({type: 'RESET_PROGRESS'})
+      dispatch({type: 'SET_LLM_GENERATION', payload: 0});
+      dispatch({type: 'RESET_BOTTOM_REACHED'});
+      dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'1': 0, '2': 0,}});
     }
   };
 
@@ -200,12 +208,12 @@ return (
     <div
       className={`fixed w-full h-full bg-[rgba(0,0,0,0.7)] z-50 top-0 left-0 flex items-center justify-center ${
         loadingFile ? '' : 'hidden'
-      } flex flex-col`}
+      } flex-col`}
     >
       <img
         id="loading-logo"
-        className="h-40 rounded-full animate-pulse"
-        src={aclLogo}
+        className="h-24 rounded-full animate-pulse"
+        src={confReadyLogo}
         alt="Logo"
       />
       <h1 className="text-white text-2xl m-6 animate-pulse">{loadingStage}</h1>
@@ -222,12 +230,11 @@ return (
       <div className="flex flex-col justify-center items-center">
         {/* Logo Section */}
         <div className="px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800 mt-4"> {/* Reduced spacing */}
-          <img src={aclLogo} className="h-[120px]" alt="ACL Logo" />
+          <img src={confReadyLogo} className="h-[75px]" alt="ACL Logo" />
         </div>
         <p className="text-white text-center px-8 lekton text-sm mt-2">
           {/* Minimized spacing */}
-          AI powered solution for seamlessly filling out the ACL Responsible
-          Checklist.
+          AI powered solution for seamlessly and responsibly fill out conference checklists
         </p>
 
         {/* New Icon Section */}
@@ -360,7 +367,6 @@ return (
           <input
             {...getInputProps()}
             type="file"
-            accept=".tex,.zip,.tar.gz"
             onChange={handleChange}
             ref={hiddenFileInput}
             style={{ display: "none" }}
