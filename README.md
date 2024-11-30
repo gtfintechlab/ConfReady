@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imghippo.com/files/FbW4639E.png" alt="ACLReady's Logo"/>
+  <img src="https://gcdnb.pbrd.co/images/2k0WV9Kn6KDk.png" alt="ACLReady's Logo"/>
 </p>
 
 <p align="center">A simple tool to parse your paper and help fill the ACL responsible checklist.</p>
