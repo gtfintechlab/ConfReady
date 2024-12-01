@@ -1,4 +1,4 @@
-name: aclready_env
+name: confready_env
 channels:
   - defaults
   - conda-forge
