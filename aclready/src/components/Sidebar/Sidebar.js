@@ -6,9 +6,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDropzone } from 'react-dropzone';
 import { useTheme } from '@mui/material/styles';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import Person2Icon from '@mui/icons-material/Person2';
 import ClassIcon from '@mui/icons-material/Class';
-import ModeNightIcon from '@mui/icons-material/ModeNight';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { saveAs } from 'file-saver';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -47,11 +47,18 @@ export default function Sidebar() {
       handleFileChangeDrop(acceptedFiles);
     },
   });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [llm, setLlm] = useState('ChatGPT-4')
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const theme = useTheme();
   const [checklistName, setChecklistName] = useState([]);
 
   const handleClick = () => {
+    dispatch({type: 'SET_SIDEBAR_STAGE', payload: 2});
     hiddenFileInput.current.click();
   };
 
@@ -108,6 +115,7 @@ export default function Sidebar() {
     } finally {
       setLoadingFile(false);
       dispatch({type: 'SET_LLM_GENERATION', payload: 1});
+      dispatch({type: 'SET_SIDEBAR_STAGE', payload: 3});
       dispatch({type: 'RESET_BOTTOM_REACHED'});
     }
   };
@@ -185,23 +193,51 @@ export default function Sidebar() {
     }
   };
 
-  // Function to validate file types
-const validateFileType = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const generateMarkdown = () => {
+    let markdown = "# ACL Responsible Checklist Responses\n\n";
+    if(state.timeTaken) {
+      markdown += `${state.timeTaken}\n\n`
+    }
 
-  // Allowed file extensions
-  const allowedExtensions = ['.tex', '.zip', '.tar.gz'];
-  const fileName = file.name.toLowerCase();
+    state.confQuestions.forEach(({ id, quest }) => {
+      markdown += `## Section ${id}: ${quest.title}\n\n`;
 
-  // Check if the file extension is allowed
-  if (allowedExtensions.some(ext => fileName.endsWith(ext))) {
-    handleChange(e); // Call your existing handler if valid
-  } else {
-    alert('Invalid file type! Please upload a .tex, .zip, or .tar.gz file.');
-    e.target.value = ''; // Clear the input
-  }
-};
+      Object.keys(quest.questions).sort((a, b) => {
+        const numA = parseInt(a.slice(1), 10);
+        const numB = parseInt(b.slice(1), 10);
+        return numA - numB;
+      }).forEach(questionId => {
+        const questionText = quest.questions[questionId];
+        const response = state.responses[questionId];
+
+        if (response) {
+          markdown += `### ${questionId}: ${questionText}\n`;
+          markdown += `**Yes/No:** ${response.choice == true ? 'Yes' : 'No'}\n\n`
+          markdown += `**Response:** ${response.text}\n\n`;
+        } else {
+          markdown += `### ${questionId}: ${questionText}\n`;
+          markdown += `**Response:** No response provided.\n\n`;
+        }
+      });
+    });
+
+    return markdown;
+  };
+
+  const handleDownload = () => {
+    const markdownContent = generateMarkdown();
+    const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
+    saveAs(blob, 'acl_responses.md');
+  };
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    
+    if (scrollTop + clientHeight === scrollHeight) {
+      // Dispatch action to set bottomReached for current section
+      dispatch({ type: 'SET_BOTTOM_REACHED', payload: { section: state.currentStage, value: 1 } });
+    }
+  };
   
 return (
   <>
@@ -223,171 +259,231 @@ return (
 
     <aside
       id="logo-sidebar"
-      style={{ borderTopRightRadius: 120 }}
+      style={{ borderTopRightRadius: 30 }}
       className="fixed top-0 left-0 z-40 w-72 h-screen pt-8 transition-transform -translate-x-full border-r sm:translate-x-0 bg-gray-800 border-gray-700 items-center flex flex-col justify-between"
       aria-label="Sidebar"
     >
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-between h-full w-full">
         {/* Logo Section */}
-        <div className="px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800 mt-4"> {/* Reduced spacing */}
-          <img src={confReadyLogo} className="h-[75px]" alt="ACL Logo" />
-        </div>
-        <p className="text-white text-center px-8 lekton text-sm mt-2">
-          {/* Minimized spacing */}
-          AI powered solution for seamlessly and responsibly fill out conference checklists
-        </p>
-
-        {/* New Icon Section */}
-        <div className="flex flex-row mt-3 gap-4 justify-center">
-          {/* Profile Icon */}
-          <button
-            className="bg-gray-700 hover:bg-gray-600 p-3 rounded-full transition-all duration-300 shadow-md text-white"
-            title="Profile / Authentication"
-          >
-            <Person2Icon fontSize="medium" />
-          </button>
-
-          {/* Documentation Icon */}
-          <button
-            onClick={() =>
-              window.open("https://confcheck-docs.vercel.app", "_blank")
-            }
-            className="bg-gray-700 hover:bg-gray-600 p-3 rounded-full transition-all duration-300 shadow-md text-white"
-            title="Documentation"
-          >
-            <ClassIcon fontSize="medium" />
-          </button>
-
-          {/* GitHub Icon */}
-          <button
-            onClick={() =>
-              window.open(
-                "https://github.com/gtfintechlab/ACL_SystemDemonstrationChecklist",
-                "_blank"
-              )
-            }
-            className="bg-gray-700 hover:bg-gray-600 p-3 rounded-full transition-all duration-300 shadow-md text-white"
-            title="GitHub Repository"
-          >
-            <GitHubIcon fontSize="medium" />
-          </button>
-
-          {/* Theme Toggle Icon */}
-          <button
-            className="bg-gray-700 hover:bg-gray-600 p-3 rounded-full transition-all duration-300 shadow-md text-white"
-            title="Toggle Dark / Light Mode"
-          >
-            <ModeNightIcon fontSize="medium" />
-          </button>
-        </div>
-
-        {/* Checklist Dropdown */}
-        <div className="w-full px-4 mt-3">
-          <label
-            htmlFor="checklist-dropdown"
-            className="block text-sm font-medium text-gray-300 lekton mb-2"
-          >
-            Checklist
-          </label>
-          <div className="relative">
-            <select
-              id="checklist-dropdown"
-              value={checklistName}
-              onChange={(e) => handleChange2(e.target.value)}
-              className="block w-full bg-[#314869] text-white rounded-md px-6 py-3 border-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 truncate appearance-none"
-              style={{ outline: "none", cursor: "pointer" }}
-            >
-              {checklists.map((name) => (
-                <option
-                  key={name}
-                  value={name}
-                  className="truncate text-black bg-white hover:bg-gray-200 transition-all duration-300 rounded-md"
-                >
-                  {name}
-                </option>
-              ))}
-            </select>
-            <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none text-gray-400">
-              ▼
-            </span>
+        <div className="flex flex-col justify-center items-center">
+          <div className="px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800 mt-4"> {/* Reduced spacing */}
+            <img src={confReadyLogo} className="h-[75px]" alt="ACL Logo" />
           </div>
-        </div>
-
-        {/* New LLM Dropdown */}
-        <div className="w-full px-4 mt-4">
-          <label
-            htmlFor="llm-dropdown"
-            className="block text-sm font-medium text-gray-300 lekton mb-2"
-          >
-            Large Language Model (LLM)
-          </label>
-          <div className="relative">
-            <select
-              id="llm-dropdown"
-              className="block w-full bg-[#314869] text-white rounded-md px-6 py-3 border-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 truncate appearance-none"
-              style={{ outline: "none", cursor: "pointer" }}
-            >
-              <option
-                value="chatgpt-4"
-                className="truncate text-black bg-white hover:bg-gray-200 transition-all duration-300 rounded-md"
-              >
-                ChatGPT-4
-              </option>
-              <option
-                value="4o"
-                className="truncate text-black bg-white hover:bg-gray-200 transition-all duration-300 rounded-md"
-              >
-                4o
-              </option>
-              <option
-                value="o1-preview"
-                className="truncate text-black bg-white hover:bg-gray-200 transition-all duration-300 rounded-md"
-              >
-                o1-preview
-              </option>
-            </select>
-            <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none text-gray-400">
-              ▼
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Upload Document Section */}
-      <div
-        className="w-full px-4 py-3 bg-[#003057] border-t-2 border-gray-700 flex flex-col items-center mt-6 mb-6"
-      >
-        <h1 className="text-white font-bold text-base mb-4">Upload Document</h1>
-
-        <div
-          {...getRootProps()}
-          onClick={() => handleClick()}
-          className="cursor-pointer border-dotted py-20 rounded-md border-2 border-white w-64 flex flex-col items-center"
-        >
-          <input
-            {...getInputProps()}
-            type="file"
-            onChange={handleChange}
-            ref={hiddenFileInput}
-            style={{ display: "none" }}
-          />
-          {loadingFile ? (
-            <div className="container flex justify-center mb-7">
-              <div className="loader">
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-          ) : (
-            <AddCircleIcon className="text-white" fontSize="large" />
-          )}
-          <p className="text-white text-center lekton text-sm mt-6">
-            {!loadingFile
-              ? "Upload or drag and drop your file here"
-              : "Please Wait..."}
+          <p className="text-white text-center px-8 lekton text-sm mt-4">
+            {/* Minimized spacing */}
+            AI powered solution for seamlessly filling out various conference checklists
           </p>
         </div>
+
+      {/* Upload Document Section */}
+      <div className="w-full px-4 py-3 bg-[#003057] flex flex-col mt-3 rounded-3xl justify-between flex-grow">
+  <div className="flex flex-col flex-grow">
+    {/* Checklist Dropdown */}
+    <div className="w-full px-4 mt-3">
+      <label
+        htmlFor="checklist-dropdown"
+        className="block text-sm font-medium text-gray-300 lekton mb-3"
+      >
+        <button onClick={() => {
+          dispatch({type: 'SET_SIDEBAR_STAGE', payload: 1});
+          const dropdown = document.getElementById("checklist-dropdown");
+          dropdown.click(); 
+        }} className={`${state.sidebarStage == 1 ? 'bg-white text-[#003057] px-1 py-1 w-7' : 'border-dotted border-gray-400 border-2 text-white px-1 py-1 w-8'} rounded-full`}>
+          1
+        </button>{" "}
+        Select Conference
+      </label>
+      <div className="relative mb-2">
+        <select
+          id="checklist-dropdown"
+          value={checklistName}
+          onChange={(e) => handleChange2(e.target.value)}
+          className="text-sm block w-full bg-[#314869] text-gray-200 rounded-md px-4 py-2 border-none shadow-md transition-all duration-300 truncate appearance-none"
+          style={{ outline: "none", cursor: "pointer" }}
+        >
+          {checklists.map((name) => (
+            <option
+              key={name}
+              value={name}
+              className="truncate text-black bg-white hover:bg-gray-200 transition-all duration-300 rounded-md"
+            >
+              {name}
+            </option>
+          ))}
+        </select>
+        <span className="absolute inset-y-0 right-6 flex items-center pointer-events-none text-[#003057]">
+          ▼
+        </span>
+      </div>
+    </div>
+    <div>
+      <label
+        htmlFor="checklist-dropdown"
+        className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
+      >
+        <button onClick={() => {
+          dispatch({type: 'SET_SIDEBAR_STAGE', payload: 2});
+          handleClick();
+        }} className={`${state.sidebarStage == 2 ? 'bg-white text-[#003057] px-1 py-1 w-7' : 'border-dotted border-gray-400 border-2 text-white px-1 py-1 w-8'} rounded-full text-sm items-center justify-center`}>
+          2
+        </button>{" "}
+        Upload Document
+      </label>
+
+      <div
+        {...getRootProps()}
+        onClick={() => handleClick()}
+        className="cursor-pointer bg-[#314869] py-3 rounded-md w-64 flex flex-col items-center"
+      >
+        <input
+          {...getInputProps()}
+          type="file"
+          onChange={handleChange}
+          ref={hiddenFileInput}
+          style={{ display: "none" }}
+        />
+        {loadingFile ? (
+          <div className="container flex justify-center mb-7">
+            <div className="loader">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        ) : (
+          <div className="border-2 border-dashed border-gray-400 px-3 py-4">
+            <AddCircleIcon className="text-white" fontSize="medium" />
+          </div>
+        )}
+        <p className="text-white text-center lekton text-sm mt-3">
+          {!loadingFile
+            ? "Upload or drag and drop your file here"
+            : "Please Wait..."}
+        </p>
+      </div>
+
+      <label
+        htmlFor="checklist-dropdown"
+        className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
+      >
+        <button onClick={() => {
+          if(state.llmGenerated != 1) {
+            window.alert("Please upload .tex or .tar.gz file in step 2");
+          } else {
+            dispatch({type: 'SET_SIDEBAR_STAGE', payload: 3});
+          }
+        }} className={`${state.sidebarStage == 3 ? 'bg-white text-[#003057] px-1 py-1 w-7' : 'border-dotted border-gray-400 border-2 text-white px-1 py-1 w-8'} rounded-full text-sm`}>
+          3
+        </button>{" "}
+        Review/Edit
+      </label>
+
+      <label
+        htmlFor="checklist-dropdown"
+        className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
+      >
+        <button onClick={() => {
+          dispatch({type: 'SET_SIDEBAR_STAGE', payload: 4});
+          if(state.downloadEnabled == 1 || state.llmGenerated == 0) {
+            handleDownload();
+          }
+        }} className={`${state.sidebarStage == 4 ? 'bg-white text-[#003057] px-1 py-1 w-7' : 'border-dotted border-gray-400 border-2 text-white px-1 py-1 w-8'} rounded-full text-sm`}>
+          4
+        </button>{" "}
+        Download
+      </label>
+    </div>
+  </div>
+          {/* New Icon Section */}
+          {/* Language Model Icon */}
+  <div className="flex flex-row items-center relative">
+      {/* Icon Button */}
+      <button
+        className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
+        title="Language Model"
+      >
+        <AutoAwesomeIcon fontSize="small" />
+      </button>
+
+      {/* Selected Model Text */}
+      <p className="text-gray-200 ml-3 text-sm">Selected Model</p>
+
+      {/* Options Button */}
+      <div className="ml-3 relative">
+        <button
+          className="bg-gray-700 text-sm hover:bg-gray-600 p-1 rounded-md transition-all duration-300 text-white"
+          onClick={toggleDropdown}
+          title="Options"
+        >
+          {llm}
+        </button>
+
+        {/* Dropdown Menu */}
+        {isDropdownOpen && (
+          <div className="absolute bottom-12 bg-[#314869] text-white rounded-md shadow-md px-4 py-2 w-48 z-50">
+            <p className="text-sm font-medium text-gray-300 lekton mb-2">
+              Select Language Model
+            </p>
+            <ul className="space-y-2">
+              <li
+                className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
+                onClick={() => setLlm("ChatGPT-4")}
+              >
+                ChatGPT-4
+              </li>
+              <li
+                className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
+                onClick={() => setLlm("4o")}
+              >
+                4o
+              </li>
+              <li
+                className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
+                onClick={() => setLlm("o1-preview")}
+              >
+                o1-preview
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+    
+<div className="flex flex-col mt-3 gap-2 justify-center">
+  {/* Documentation Icon */}
+  <div className='flex flex-row items-center'>
+  <button
+    onClick={() =>
+      window.open("https://confcheck-docs.vercel.app", "_blank")
+    }
+    className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
+    title="Documentation"
+  >
+    <ClassIcon fontSize="small" />
+  </button>
+  <p className='text-gray-200 ml-3 text-sm'>Documentation</p>
+  </div>
+
+  {/* GitHub Icon */}
+  <div className='flex flex-row items-center'>
+  <button
+    onClick={() =>
+      window.open(
+        "https://github.com/gtfintechlab/ACL_SystemDemonstrationChecklist",
+        "_blank"
+      )
+    }
+    className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
+    title="GitHub Repository"
+  >
+    <GitHubIcon fontSize="small" />
+  </button>
+  <p className='text-gray-200 ml-3 text-sm'>GitHub</p>
+  </div>
+
+</div>
+</div>
+
       </div>
     </aside>
   </>

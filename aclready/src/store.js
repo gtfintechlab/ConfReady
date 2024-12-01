@@ -17,6 +17,7 @@ const initialState = {
   llmGenerated: 0,
   bottomReached: {'A':0,  'B': 0, 'C': 0, 'D': 0, 'E': 0},
   downloadEnabled: 0,
+  sidebarStage: 1,
 };
 
 const calculateProgress = (responses, questions) => {
@@ -128,7 +129,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         llmGenerated: action.payload,
-      }
+      };
+    case 'SET_SIDEBAR_STAGE':
+      return {
+        ...state,
+        sidebarStage: action.payload,
+      };
     default:
       return state;
   }

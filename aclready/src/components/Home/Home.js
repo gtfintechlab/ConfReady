@@ -123,7 +123,7 @@ function Home() {
         ))}
       </div>
       </div>
-      <div className='p-24 pb-10 pt-12'>
+      <div className='p-24 pb-10 pt-20'>
                   <h1 className='times text-2xl font-bold'>{id} | <span className='font-normal'>{quest.title}</span></h1>
                   {quest.titleResponse == 1 && (
                     <Question key={id} id={id} question_data={null} isRoot={true} />
@@ -191,8 +191,8 @@ function Home() {
           currentStage == listHeader[listHeader.length - 1] && (
 <button 
           onClick={handleDownload} 
-          className={`bg-black text-white p-3 rounded-full ${!state.downloadEnabled && 'opacity-50 cursor-not-allowed'}`}
-          disabled={!state.downloadEnabled}>
+          className={`bg-black text-white p-3 px-5 rounded-full ${!state.downloadEnable && llmGenerated && 'opacity-50 cursor-not-allowed'}`}
+          disabled={!state.downloadEnabled && llmGenerated}>
             Download Document&nbsp;&nbsp;<DownloadIcon />
         </button>          )
         }
