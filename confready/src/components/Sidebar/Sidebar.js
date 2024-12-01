@@ -383,8 +383,8 @@ return (
         className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
       >
         <button onClick={() => {
-          dispatch({type: 'SET_SIDEBAR_STAGE', payload: 4});
-          if(state.downloadEnabled == 1 || state.llmGenerated == 0) {
+          if(state.downloadEnabled == 1) {
+            dispatch({type: 'SET_SIDEBAR_STAGE', payload: 4});
             handleDownload();
           }
         }} className={`${state.sidebarStage == 4 ? 'bg-white text-[#003057] px-1 py-1 w-7' : 'border-dotted border-gray-400 border-2 text-white px-1 py-1 w-8'} rounded-full text-sm`}>
@@ -427,19 +427,28 @@ return (
             <ul className="space-y-2">
               <li
                 className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
-                onClick={() => setLlm("ChatGPT-4")}
+                onClick={() => {
+                  setLlm("ChatGPT-4");
+                  toggleDropdown();
+                }}
               >
                 ChatGPT-4
               </li>
               <li
                 className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
-                onClick={() => setLlm("4o")}
+                onClick={() => {
+                  setLlm("4o");
+                  toggleDropdown();
+                }}
               >
                 4o
               </li>
               <li
                 className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
-                onClick={() => setLlm("o1-preview")}
+                onClick={() => {
+                  setLlm("o1-preview");
+                  toggleDropdown();
+                }}
               >
                 o1-preview
               </li>

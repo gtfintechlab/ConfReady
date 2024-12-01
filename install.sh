@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Remove the existing conda environment if it exists
-if conda env list | grep -q "aclready_env"; then
-  conda env remove -n aclready_env
+if conda env list | grep -q "confready_env"; then
+  conda env remove -n confready_env
 fi
 
 # Create conda environment if it doesn't exist
-if ! conda env list | grep "aclready_env"; then
+if ! conda env list | grep "confready_env"; then
   conda env create -f environment.yml
 fi
 
@@ -14,10 +14,10 @@ fi
 source $(conda info --base)/etc/profile.d/conda.sh
 
 # Activate the environment
-conda activate aclready_env
+conda activate confready_env
 
 # Install npm dependencies
-npm install --prefix ./aclready
+npm install --prefix ./confready
 
 # Check if .env file already exists, if not, create it
 if [ ! -f server/.env ]; then

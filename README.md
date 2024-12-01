@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://gcdnb.pbrd.co/images/2k0WV9Kn6KDk.png" alt="ACLReady's Logo"/>
+  <img src="https://gcdnb.pbrd.co/images/2k0WV9Kn6KDk.png" alt="ConfReady's Logo"/>
 </p>
 
 <p align="center">A simple tool to parse your paper and help fill the ACL responsible checklist.</p>
@@ -20,10 +20,10 @@
 
 This repository:
 
-- is **an easy-to-use GPT 3.5 or Llama powered web interface** which can be used to empower authors to reflect on their work and assist authors with the [ARR Responsible NLP Research checklist](https://aclrollingreview.org/responsibleNLPresearch/).
+- is **an easy-to-use Llama or GPT powered web interface** which can be used to empower authors to reflect on their work and assist authors with the [ARR Responsible NLP Research checklist](https://aclrollingreview.org/responsibleNLPresearch/).
 - is **highly flexible** and offers various adaptations and possibilities such as prompt customization, thereby, enabling developers to continue developing this tool for other conferences.
 
-An overview of ACLReady is presented in this [YouTube video](https://youtu.be/_V0OV2E90FY?si=2v2rlx5T2dQzWK8L).
+An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_V0OV2E90FY?si=2v2rlx5T2dQzWK8L).
 
 ## Installation
 
@@ -37,7 +37,7 @@ An overview of ACLReady is presented in this [YouTube video](https://youtu.be/_V
 
     ```bash
     git clone https://github.com/gtfintechlab/ACLReady.git
-    cd ACLReady
+    cd ConfReady
     ```
 
 2. **Run the installation script**:
@@ -66,7 +66,7 @@ An overview of ACLReady is presented in this [YouTube video](https://youtu.be/_V
 2. **Run the Web Interface**:
 
     ```bash
-    cd aclready
+    cd confready
     npm start
     ```
 
