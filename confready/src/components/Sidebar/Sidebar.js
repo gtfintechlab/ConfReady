@@ -355,7 +355,7 @@ return (
             <AddCircleIcon className="text-white" fontSize="medium" />
           </div>
         )}
-        <p className="text-white text-center lekton text-sm mt-3 w-28">
+        <p className="text-white text-center lekton text-sm mt-3">
           {!loadingFile
             ? "Upload or drag and drop your file here"
             : "Please Wait..."}
