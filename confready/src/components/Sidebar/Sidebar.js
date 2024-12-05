@@ -22,9 +22,9 @@ const MenuProps = {
 };
 
 const checklists = [
-  'Association for Computational Linguistics (ACL)',
+  'ACL',
   'NeurIPS',
-  'NeurIPS Datasets and Benchmarks',
+  'NeurIPS D&B',
 ];
 
 function getStyles(name, checklistName, theme) {
@@ -48,7 +48,7 @@ export default function Sidebar() {
     },
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [llm, setLlm] = useState('ChatGPT-4')
+  const [llm, setLlm] = useState('Llama 3.1 405B')
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -316,10 +316,10 @@ return (
         </span>
       </div>
     </div>
-    <div>
+    <div className='px-4'>
       <label
         htmlFor="checklist-dropdown"
-        className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
+        className="block text-sm font-medium text-gray-300 lekton py-3"
       >
         <button onClick={() => {
           dispatch({type: 'SET_SIDEBAR_STAGE', payload: 2});
@@ -333,7 +333,7 @@ return (
       <div
         {...getRootProps()}
         onClick={() => handleClick()}
-        className="cursor-pointer bg-[#314869] py-3 rounded-md w-64 flex flex-col items-center"
+        className="cursor-pointer bg-[#314869] py-3 rounded-md flex flex-col items-center"
       >
         <input
           {...getInputProps()}
@@ -355,7 +355,7 @@ return (
             <AddCircleIcon className="text-white" fontSize="medium" />
           </div>
         )}
-        <p className="text-white text-center lekton text-sm mt-3">
+        <p className="text-white text-center lekton text-sm mt-3 w-28">
           {!loadingFile
             ? "Upload or drag and drop your file here"
             : "Please Wait..."}
@@ -364,7 +364,7 @@ return (
 
       <label
         htmlFor="checklist-dropdown"
-        className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
+        className="block text-sm font-medium text-gray-300 lekton py-3"
       >
         <button onClick={() => {
           if(state.llmGenerated != 1) {
@@ -380,7 +380,7 @@ return (
 
       <label
         htmlFor="checklist-dropdown"
-        className="block text-sm font-medium text-gray-300 lekton px-4 py-3"
+        className="block text-sm font-medium text-gray-300 lekton py-3"
       >
         <button onClick={() => {
           if(state.downloadEnabled == 1) {
@@ -409,7 +409,7 @@ return (
       <p className="text-gray-200 ml-3 text-sm">Selected Model</p>
 
       {/* Options Button */}
-      <div className="ml-3 relative">
+      <div className="ml-9 relative w-full">
         <button
           className="bg-gray-700 text-sm hover:bg-gray-600 p-1 rounded-md transition-all duration-300 text-white"
           onClick={toggleDropdown}
@@ -420,7 +420,7 @@ return (
 
         {/* Dropdown Menu */}
         {isDropdownOpen && (
-          <div className="absolute bottom-12 bg-[#314869] text-white rounded-md shadow-md px-4 py-2 w-48 z-50">
+          <div className="absolute bottom-12 bg-[#314869] text-white rounded-md shadow-md px-4 py-2 w-52 z-50">
             <p className="text-sm font-medium text-gray-300 lekton mb-2">
               Select Language Model
             </p>
@@ -428,11 +428,11 @@ return (
               <li
                 className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
                 onClick={() => {
-                  setLlm("ChatGPT-4");
+                  setLlm("Llama 3.1 405B");
                   toggleDropdown();
                 }}
               >
-                ChatGPT-4
+                Llama 3.1 405B
               </li>
               <li
                 className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
@@ -463,7 +463,7 @@ return (
   <div className='flex flex-row items-center'>
   <button
     onClick={() =>
-      window.open("https://confcheck-docs.vercel.app", "_blank")
+      window.open("https://confready-docs.vercel.app", "_blank")
     }
     className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
     title="Documentation"

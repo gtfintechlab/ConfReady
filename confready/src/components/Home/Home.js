@@ -191,7 +191,7 @@ function Home() {
           currentStage == listHeader[listHeader.length - 1] && (
 <button 
           onClick={handleDownload} 
-          className={`bg-black text-white p-3 px-5 rounded-full ${!state.downloadEnable && llmGenerated && 'opacity-50 cursor-not-allowed'}`}
+          className={`bg-[#1F2937] text-white p-3 px-5 rounded-full ${!state.downloadEnable && llmGenerated && 'opacity-50 cursor-not-allowed'}`}
           disabled={!state.downloadEnabled && llmGenerated}>
             Download Document&nbsp;&nbsp;<DownloadIcon />
         </button>          )
