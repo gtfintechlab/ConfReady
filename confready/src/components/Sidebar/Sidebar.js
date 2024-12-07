@@ -396,67 +396,67 @@ return (
   </div>
           {/* New Icon Section */}
           {/* Language Model Icon */}
-  <div className="flex flex-row items-center relative">
-      {/* Icon Button */}
-      <button
-        className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
-        title="Language Model"
-      >
-        <AutoAwesomeIcon fontSize="small" />
-      </button>
+          <div className="flex flex-row items-center relative space-x-2">
+  {/* Icon Button */}
+  <button
+    className="bg-gray-700 hover:bg-gray-600 rounded-full transition-all duration-300 shadow-md text-white w-fit"
+    title="Language Model"
+    style={{paddingLeft: 10, paddingRight: 10, paddingTop: 6, paddingBottom: 6}}
+  >
+    <AutoAwesomeIcon sx={{ fontSize: 16 }} />
+  </button>
 
-      {/* Selected Model Text */}
-      <p className="text-gray-200 ml-3 text-sm">Selected Model</p>
+  {/* Selected Model and Dropdown in one line */}
+  <div className="flex flex-row items-center text-sm text-gray-200 truncate">
+    <p className="mr-2 whitespace-nowrap">Selected Model:</p>
+    <button
+      className="bg-gray-700 text-sm hover:bg-gray-600 px-2 py-1 rounded-md transition-all duration-300 text-white truncate"
+      onClick={toggleDropdown}
+      title="Options"
+    >
+      {llm}
+    </button>
+  </div>
 
-      {/* Options Button */}
-      <div className="ml-9 relative w-full">
-        <button
-          className="bg-gray-700 text-sm hover:bg-gray-600 p-1 rounded-md transition-all duration-300 text-white"
-          onClick={toggleDropdown}
-          title="Options"
-        >
-          {llm}
-        </button>
-
-        {/* Dropdown Menu */}
-        {isDropdownOpen && (
+  {/* Dropdown Menu */}
+  {isDropdownOpen && (
           <div className="absolute bottom-12 bg-[#314869] text-white rounded-md shadow-md px-4 py-2 w-52 z-50">
             <p className="text-sm font-medium text-gray-300 lekton mb-2">
               Select Language Model
             </p>
-            <ul className="space-y-2">
-              <li
-                className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
-                onClick={() => {
-                  setLlm("Llama 3.1 405B");
-                  toggleDropdown();
-                }}
-              >
-                Llama 3.1 405B
-              </li>
-              <li
-                className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
-                onClick={() => {
-                  setLlm("4o");
-                  toggleDropdown();
-                }}
-              >
-                4o
-              </li>
-              <li
-                className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
-                onClick={() => {
-                  setLlm("o1-preview");
-                  toggleDropdown();
-                }}
-              >
-                o1-preview
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
+      <ul className="space-y-2">
+        <li
+          className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
+          onClick={() => {
+            setLlm("Llama 3.1 405B");
+            toggleDropdown();
+          }}
+        >
+          Llama 3.1 405B
+        </li>
+        <li
+          className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
+          onClick={() => {
+            setLlm("4o");
+            toggleDropdown();
+          }}
+        >
+          4o
+        </li>
+        <li
+          className="cursor-pointer hover:bg-gray-600 px-3 py-2 rounded-md text-sm"
+          onClick={() => {
+            setLlm("o1-preview");
+            toggleDropdown();
+          }}
+        >
+          o1-preview
+        </li>
+      </ul>
     </div>
+  )}
+</div>
+
     
 <div className="flex flex-col mt-3 gap-2 justify-center">
   {/* Documentation Icon */}
@@ -465,12 +465,13 @@ return (
     onClick={() =>
       window.open("https://confready-docs.vercel.app", "_blank")
     }
-    className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
+    className="bg-gray-700 hover:bg-gray-600 rounded-full transition-all duration-300 shadow-md text-white w-fit"
     title="Documentation"
+    style={{paddingLeft: 10, paddingRight: 10, paddingTop: 6, paddingBottom: 6}}
   >
-    <ClassIcon fontSize="small" />
+    <ClassIcon sx={{ fontSize: 16 }} />
   </button>
-  <p className='text-gray-200 ml-3 text-sm'>Documentation</p>
+  <p className='text-gray-200 ml-2 text-sm'>Documentation</p>
   </div>
 
   {/* GitHub Icon */}
@@ -482,12 +483,13 @@ return (
         "_blank"
       )
     }
-    className="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-300 shadow-md text-white w-fit"
+    className="bg-gray-700 hover:bg-gray-600 rounded-full transition-all duration-300 shadow-md text-white w-fit"
     title="GitHub Repository"
+    style={{paddingLeft: 10, paddingRight: 10, paddingTop: 6, paddingBottom: 6}}
   >
-    <GitHubIcon fontSize="small" />
+    <GitHubIcon sx={{ fontSize: 16 }} />
   </button>
-  <p className='text-gray-200 ml-3 text-sm'>GitHub</p>
+  <p className='text-gray-200 ml-2 text-sm'>GitHub</p>
   </div>
 
 </div>
