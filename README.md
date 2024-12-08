@@ -33,7 +33,7 @@ An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_
 1. **Clone the repository** and navigate to the project directory:
 
     ```bash
-    git clone https://github.com/gtfintechlab/ACLReady.git
+    git clone https://github.com/gtfintechlab/ConfReady.git
     cd ConfReady
     ```
 
