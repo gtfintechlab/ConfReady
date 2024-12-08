@@ -1,17 +1,14 @@
-<p align="center">
-  <img src="https://gcdnb.pbrd.co/images/2k0WV9Kn6KDk.png" alt="ConfReady's Logo"/>
-</p>
-
 <p align="center">A simple tool to parse your paper and help fill the ACL responsible checklist.</p>
 <p align="center">
-<img alt="version" src="https://img.shields.io/badge/version-0.1.0-green">
+<img alt="version" src="https://img.shields.io/badge/version-0.2.0-green">
 <img alt="python" src="https://img.shields.io/badge/python-3.11-blue">
-<img alt="Static Badge" src="https://img.shields.io/badge/license-CC%20BY%20NC%20ND%204.0-green">
+<img alt="license" src="https://img.shields.io/badge/license-AGPL%20v3-blue">
 </p>
 <div align="center">
 <hr>
 
-[Installation](#installation) | [Citation](#citation)
+
+[Installation](#installation) | [Citation](#citation) | [Documentation](#documentation)
 
 <hr>
 </div>
@@ -77,6 +74,10 @@ An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_
 ## Citation
 
 If you find this repository useful, please cite our work.
+
+## Documentation
+
+For detailed guidance, please refer to our [documentation](https://confready-docs.vercel.app/docs/introduction).
 
 ```c
 @article{galarnyk2024aclready,
