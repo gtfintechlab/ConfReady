@@ -8,7 +8,7 @@
 <hr>
 
 
-[Installation](#installation) | [Documentation](#documentation)| [Citation](#citation) 
+[Installation](#installation) | [Documentation](https://confready-docs.vercel.app/docs/introduction) | [Citation](#citation) 
 
 <hr>
 </div>
@@ -73,7 +73,7 @@ An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_
    
 ## Documentation
 
-For detailed guidance, please refer to our [documentation](https://confready-docs.vercel.app/docs/introduction).
+We welcome contributions to this library and encourage potential contributors to start by reviewing our [documentation](https://confready-docs.vercel.app/docs/introduction) to familiarize themselves with the codebase's format and structure. Once you have a solid understanding, feel free to submit a pull request. We’re excited to collaborate with new contributors and drive this project forward together.
 
 ## Citation
 
