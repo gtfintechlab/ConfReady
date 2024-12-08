@@ -8,7 +8,7 @@
 <hr>
 
 
-[Installation](#installation) | [Citation](#citation) | [Documentation](#documentation)
+[Installation](#installation) | [Documentation](#documentation)| [Citation](#citation) 
 
 <hr>
 </div>
@@ -70,14 +70,14 @@ An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_
 3. **Access the API**:
 
     The server will be running on `http://localhost:3000/`.
+   
+## Documentation
+
+For detailed guidance, please refer to our [documentation](https://confready-docs.vercel.app/docs/introduction).
 
 ## Citation
 
 If you find this repository useful, please cite our work.
-
-## Documentation
-
-For detailed guidance, please refer to our [documentation](https://confready-docs.vercel.app/docs/introduction).
 
 ```c
 @article{galarnyk2024aclready,
@@ -88,3 +88,4 @@ For detailed guidance, please refer to our [documentation](https://confready-doc
   url={https://arxiv.org/abs/2408.04675}
 }
 ```
+
