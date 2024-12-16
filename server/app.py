@@ -61,6 +61,8 @@ def upload_file():
     start_time = time.time()
     processed_data = {}
 
+    prompt_dict_choice = request.form.get('prompt_dict_choice', 'acl')  # Default to 'acl'
+
     try:
         # Determine if we are dealing with a compressed file or a single .tex file
         if uploaded_file.filename.endswith(('.zip', '.tar.gz')):
@@ -73,11 +75,11 @@ def upload_file():
             merged_file_path = merge_tex_files(tex_files, merged_tex_path)
             
             # Process the merged .tex file
-            processed_data = process_file(merged_file_path)
+            processed_data = process_file(merged_file_path, prompt_dict_choice)
 
         elif uploaded_file.filename.endswith('.tex'):
             # Directly process the single .tex file
-            processed_data = process_file(temp_file_path)
+            processed_data = process_file(temp_file_path, prompt_dict_choice)
 
         else:
             return jsonify({'error': 'Unsupported file format. Only .zip, .tar.gz, and .tex files are allowed.'}), 400
