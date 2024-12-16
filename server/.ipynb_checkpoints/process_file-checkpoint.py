@@ -98,7 +98,7 @@ def process_file(filename, prompt_dict_choice):
 
     ## Get Environmental Variables
 
-    #togetherai_api_key = os.getenv('TOGETHERAI_API_KEY')
+    togetherai_api_key = os.getenv('TOGETHERAI_API_KEY')
     openai_api_key = os.getenv('OPENAI_API_KEY')
 
     """## Load Data and Setup"""
@@ -479,7 +479,7 @@ def process_file(filename, prompt_dict_choice):
     embed_model = OpenAIEmbedding(model = 'text-embedding-ada-002')
 
     model_name = "gpt-4o-2024-05-13"
-    llm = OpenAI(api_key=openai_api_key, temperature=0, model=model_name )
+    llm = OpenAI(api_key=openai_api_key, temperature=0, model=model_name, chunk_size_limit=2048, )
 
     #model_name = 'Llama-3-70b-chat-hf'
 
