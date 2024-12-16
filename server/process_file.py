@@ -42,7 +42,6 @@ class SafeLLMRerank:
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.query_engine import MultiStepQueryEngine
 from llama_index.core.retrievers import RecursiveRetriever
-from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.embeddings.together import TogetherEmbedding
 from llama_index.llms.openai import OpenAI
 
@@ -74,7 +73,6 @@ class SafeLLMRerank:
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.query_engine import MultiStepQueryEngine
 from llama_index.core.retrievers import RecursiveRetriever
-from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
 
 import nest_asyncio
@@ -95,7 +93,7 @@ def send_update(message):
         except Exception as e:
             print(f"Failed to send update: {e}")
 
-def process_file(filename):
+def process_file(filename, prompt_dict_choice):
 
     ## Get Environmental Variables
 
@@ -466,13 +464,19 @@ def process_file(filename):
     Format your response as a JSON object with 'answer', 'section name', and 'justification' as the keys.
     If the information isn't present, use 'unknown' as the value."""
 
-    prompt_dict = generate_prompt_dict_acl(prompt_instruction_acl, prompt_instruction_A3_acl, combined_node_id)
+    if prompt_dict_choice == "acl":
+        prompt_dict = generate_prompt_dict_acl(prompt_instruction_acl, prompt_instruction_A3_acl, combined_node_id)
+    elif prompt_dict_choice == "neurips":
+        prompt_dict = generate_prompt_dict_neurips(prompt_instruction_acl, combined_node_id)
+    elif prompt_dict_choice == "neurips_b":
+        prompt_dict = generate_prompt_dict_neurips_b(prompt_instruction_acl)
+        
+
 
     # https://platform.openai.com/docs/guides/embeddings/what-are-embeddings
-    embed_model = OpenAIEmbedding(model = 'text-embedding-ada-002')
-    #embed_model = TogetherEmbedding(model_name="togethercomputer/m2-bert-80M-8k-retrieval", api_key = togetherai_api_key)
+    embed_model = TogetherEmbedding(model_name="togethercomputer/m2-bert-80M-32k-retrieval", api_key = togetherai_api_key)
 
-    # model_name = "gpt-3.5-turbo"
+    model_name = "gpt-3.5-turbo"
     model_name = "gpt-4o-2024-05-13"
     llm = OpenAI(api_key=openai_api_key, temperature=0, model=model_name, chunk_size_limit=2048, )
 
@@ -543,9 +547,6 @@ def process_file(filename):
 
     # Filter the nodes based on the criterion
     A1_filtered_nodes = {node_id: node for node_id, node in all_nodes_dict.items() if is_limitation_node(node)}
-
-
-
     vector_retriever_chunk = index.as_retriever(similarity_top_k=40)
 
     recursive_retriever = RecursiveRetriever(
