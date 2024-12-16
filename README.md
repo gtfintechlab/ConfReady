@@ -10,8 +10,7 @@
 <div align="center">
 <hr>
 
-
-[Installation](#installation) | [Documentation](https://confready-docs.vercel.app/docs/introduction) | [Citation](#citation) 
+[Installation](#installation) | [Documentation](https://confready-docs.vercel.app/docs/introduction)
 
 <hr>
 </div>
@@ -20,8 +19,8 @@
 
 This repository:
 
-- is **an easy-to-use Llama or GPT powered web interface** which can be used to empower authors to reflect on their work and assist authors with the [ARR Responsible NLP Research checklist](https://aclrollingreview.org/responsibleNLPresearch/).
-- is **highly flexible** and offers various adaptations and possibilities such as prompt customization, thereby, enabling developers to continue developing this tool for other conferences.
+- is **an easy-to-use Llama or GPT powered web interface** which can be used to empower authors to reflect on their work and assist authors with conference checklists
+- is **highly flexible** and offers various adaptations and possibilities such as prompt customization, enabling developers to continue developing this tool for additional conferences
 
 An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_V0OV2E90FY?si=2v2rlx5T2dQzWK8L).
 
@@ -77,18 +76,3 @@ An overview of ConfReady is presented in this [YouTube video](https://youtu.be/_
 ## Documentation
 
 We welcome contributions to this library and encourage potential contributors to start by reviewing our [documentation](https://confready-docs.vercel.app/docs/introduction) to familiarize themselves with the codebase's format and structure. Once you have a solid understanding, feel free to submit a pull request. We’re excited to collaborate with new contributors and drive this project forward together.
-
-## Citation
-
-If you find this repository useful, please cite our work.
-
-```c
-@article{galarnyk2024aclready,
-  title={ACL Ready: RAG Based Assistant for the ACL Checklist},
-  author={Galarnyk, Michael and Routu, Rutwik and Bheda, Kosha and Mehta, Priyanshu and Shah, Agam and Chava, Sudheer},
-  journal={Available at arXiv 2408.04675},
-  year={2024},
-  url={https://arxiv.org/abs/2408.04675}
-}
-```
-
