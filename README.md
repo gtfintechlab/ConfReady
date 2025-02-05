@@ -22,7 +22,7 @@ This repository:
 - is **an easy-to-use Llama or GPT powered web interface** which can be used to empower authors to reflect on their work and assist authors with conference checklists
 - is **highly flexible** and offers various adaptations and possibilities such as prompt customization, enabling developers to continue developing this tool for additional conferences
 
-An overview of ConfReady is presented in this [YouTube video]([https://youtu.be/_V0OV2E90FY?si=2v2rlx5T2dQzWK8L](https://youtu.be/ZLtdtoR75GU?si=Pnkses_Dkv7q5u6G)).
+An overview of ConfReady is presented in this [YouTube video](https://youtu.be/ZLtdtoR75GU?si=WWv7Z4L6c4zoDaPf).
 
 ## Installation
 
