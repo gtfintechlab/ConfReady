@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="https://gcdnb.pbrd.co/images/2k0WV9Kn6KDk.png" alt="ConfReady's Logo"/>
+  <img src="confready/public/confready.png" alt="ConfReady's Logo" width="300"/>
 </p>
+
 <p align="center">A simple tool to parse your paper and help fill the ACL responsible checklist.</p>
 <p align="center">
 <img alt="version" src="https://img.shields.io/badge/version-0.2.0-green">
