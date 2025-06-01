@@ -3,184 +3,183 @@ from collections import OrderedDict
 # Supporting information https://neurips.cc/public/guides/PaperChecklist
 supporting_prompt_dict = OrderedDict()
 
+# section 1 =========================================================================================================
+
 supporting_prompt_dict["1a"] = """The main claims made in the abstract and introduction should accurately reflect the paper's contributions and scope.
 Claims should match theoretical and experimental results in terms of generalizability.
 The paper's contributions should be clearly stated, along with important assumptions and limitations.
 Aspirational goals can be used as motivation if it is clear they are not attained by the paper."""
 
-supporting_prompt_dict["1b"] =  
+supporting_prompt_dict["1b"] = """Look for a discussion of limitations, often found in a 'Limitations' or 'Discussion' section."""
 
-supporting_prompt_dict["1c"] = 
+supporting_prompt_dict["1c"] = """Refer to sections discussing ethical implications or societal impacts. 
+If there are no negative societal impacts, justify why it is not applicable."""
 
-supporting_prompt_dict["1d"] = 
+supporting_prompt_dict["1d"] = """Check for statements about following NeurIPS ethics review guidelines. 
+Look for explicit confirmation in the main text or appendices."""
 
-supporting_prompt_dict["2a"] = """You are encouraged to create a separate "Limitations" section in your paper.
+#  ==================================================================================================================
+
+# section 2 =========================================================================================================
+
+supporting_prompt_dict["2a"] = """Only applicable if the paper includes theoretical results. 
+Verify that all assumptions underlying those results are stated clearly.
 The paper should point out strong assumptions and how robust the results are to violations of these assumptions.
 Reflect on how assumptions might be violated in practice and the implications.
 Reflect on the scope of your claims, e.g., testing on a few datasets or limited runs.
 Reflect on factors that influence performance, such as environmental conditions, resolution, or use in unintended contexts."""
 
-supporting_prompt_dict["2a"] = 
+supporting_prompt_dict["2b"] = """Only applicable if the paper includes theoretical results. 
+Verify that complete proofs are provided either in the main text or in the appendix."""
 
-supporting_prompt_dict["2b"] = 
+#  ==================================================================================================================
 
-supporting_prompt_dict["3a"] = """If including theoretical results, state all assumptions clearly in the theorem statements.
-Include complete proofs either in the main paper or supplemental material, and provide a proof sketch for intuition if proofs are in the appendix.
-All theorems and lemmas that the proof relies upon should be properly referenced."""
+# section 3 =========================================================================================================
 
-supporting_prompt_dict["3b"] = 
+supporting_prompt_dict["3a"] = """Check for GitHub links, supplemental material, or URLs providing code, data, and instructions for reproducing experiments."""
 
-supporting_prompt_dict["3c"] = 
+supporting_prompt_dict["3b"] = """Look in the experimental details section for data splits, hyperparameters, and descriptions of how they were chosen."""
 
-supporting_prompt_dict["3d"] = 
+supporting_prompt_dict["3c"] = """Determine if results include mean and standard deviation or other error bars over multiple runs."""
 
-supporting_prompt_dict["4a"] = """If the contribution is a dataset or model, describe the steps taken to ensure reproducibility.
-This may include releasing code and data, providing detailed instructions to replicate results, access to a model, or other means suitable for the research.
-For closed-source models, ensure that other researchers have some path to reproduce or verify the results."""
+supporting_prompt_dict["3d"] = """Look for mentions of compute resources (e.g., GPU types, cluster details, cloud provider) in the experimental setup."""
 
-supporting_prompt_dict["4b"]
+#  ==================================================================================================================
 
-supporting_prompt_dict["4c"]
+# section 4 =========================================================================================================
 
-supporting_prompt_dict["4d"]
+supporting_prompt_dict["4a"] = """Verify that all reused datasets, models, or code are cited properly in the references."""
 
-supporting_prompt_dict["4e"]
+supporting_prompt_dict["4b"] = """Check for statements about licenses (e.g., MIT, CC-BY) for any existing assets used."""
 
-supporting_prompt_dict["5a"] = """If you ran experiments, include the code, data, and instructions needed to reproduce the main experimental results.
-Details such as the exact command and environment needed should be specified.
-While release of code and data is encouraged, 'no' is acceptable if, for example, code is proprietary.
-Remember to anonymize your release at submission time."""
+supporting_prompt_dict["4c"] = """Determine if any new datasets or tools are released, with links or supplemental files provided."""
 
-supporting_prompt_dict["6a"] = """For experiments, specify all the training details, such as data splits, hyperparameters, and how they were chosen.
-Details should be provided either in the main body or the supplemental materials.
-The experimental setup should be presented with enough detail to appreciate and validate the results."""
+supporting_prompt_dict["4d"] = """For datasets involving human data, verify that consent procedures are discussed (e.g., in methods or appendix)."""
 
-supporting_prompt_dict["7a"] = """Report error bars or provide statistical significance of the experimental results.
-Specify factors of variability that the error bars are capturing (e.g., random initialization, train/test split).
-Provide details on how error bars were calculated (e.g., library call, bootstrap).
-The type of error bar, such as standard deviation or standard error, should also be clarified."""
+supporting_prompt_dict["4e"] = """Check for statements about whether the used or curated data contain personally identifiable information or offensive content, often in an 'Ethics' section or appendix."""
 
-supporting_prompt_dict["8a"] = """For each experiment, provide sufficient information on computer resources used, such as type of compute workers (CPU/GPU), memory, time of execution.
-Estimate the compute required for each run and disclose the total compute for the project, including preliminary or failed experiments."""
+#  ==================================================================================================================
 
-supporting_prompt_dict["9a"] = """Have you read the NeurIPS Code of Ethics and ensured your research conforms to it?
-If special circumstances require deviation from the Code of Ethics, explain while preserving anonymity."""
+# section 5 =========================================================================================================
 
-supporting_prompt_dict["10a"] = """If applicable, discuss any potential negative societal impacts of your work.
-Examples include malicious or unintended uses (e.g., surveillance, disinformation), fairness considerations, privacy concerns, and security risks.
-Consider mitigation strategies, such as gated release of models or monitoring misuse."""
+supporting_prompt_dict["5a"] = """Look for the full text of instructions given to workers or screenshots of the annotation interface, if applicable."""
 
-supporting_prompt_dict["11a"] = """If releasing models with high misuse potential, implement safeguards for responsible release.
-Safeguards can include controlled access, requiring adherence to usage guidelines, or restrictions.
-Describe how unsafe or offensive content in datasets has been managed to ensure safe release."""
+supporting_prompt_dict["5b"] = """Verify that any participant risks are discussed, with IRB approval details if necessary."""
 
-supporting_prompt_dict["12a"] = """If using existing assets, cite creators and respect licenses.
-State the version of the asset, license information, and any terms of use.
-If releasing assets, include copyright information, terms of use, and a license."""
+supporting_prompt_dict["5c"] = """Check for statements about compensation, including hourly wage or total amount spent on participant compensation."""
 
-supporting_prompt_dict["13a"] = """If releasing new assets, document them thoroughly using structured templates.
-Provide details such as training, license, and limitations.
-Discuss whether and how consent was obtained from people whose data is used."""
+#  ==================================================================================================================
 
-supporting_prompt_dict["14a"] = """If you used crowdsourcing or conducted research with human subjects, include the full text of instructions given to participants and screenshots, if applicable.
-Details about participant compensation should also be provided.
-Ensure workers are paid at least the minimum wage in your country."""
-
-supporting_prompt_dict["15a"] = """Did you describe potential participant risks and obtain IRB approval, if applicable?
-State clearly whether IRB approval was obtained while preserving anonymity.
-Adhere to NeurIPS Code of Ethics and the guidelines from your institution."""
-
-def generate_prompt_dict_neurips_b(prompt_instruction):
+def generate_prompt_dict_neurips_b():
     prompt_dict = OrderedDict()
-
-    # 1a: Claims
-    prompt_dict["1a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: Do the main claims made in the abstract and introduction accurately reflect the paper's contributions and scope?
+    prompt_instruction = "Return your answer as a JSON object with keys: 'answer', 'section name', and 'justification'. 'answer' must be one of 'Yes', 'No', or 'N/A'."
+    
+    # 1a: Main claims in abstract/introduction
+    prompt_dict["1a"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Do the main claims made in the abstract and introduction accurately reflect the paper’s contributions and scope?
     Additional Context: {supporting_prompt_dict["1a"]}
     Output Structure: """ + prompt_instruction
-
-    # 2a: Limitations
-    prompt_dict["2a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
+    
+    # 1b: Limitations
+    prompt_dict["1b"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
     Question: Did you describe the limitations of your work?
+    Additional Context: {supporting_prompt_dict["1b"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 1c: Negative societal impacts
+    prompt_dict["1c"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you discuss any potential negative societal impacts of your work?
+    Additional Context: {supporting_prompt_dict["1c"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 1d: Ethics review guidelines
+    prompt_dict["1d"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Have you read the ethics review guidelines and ensured that your paper conforms to them?
+    Additional Context: {supporting_prompt_dict["1d"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 2a: Theoretical assumptions
+    prompt_dict["2a"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you state the full set of assumptions of all theoretical results?
     Additional Context: {supporting_prompt_dict["2a"]}
     Output Structure: """ + prompt_instruction
-
-    # 3a: Theory, Assumptions and Proofs
-    prompt_dict["3a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If you are including theoretical results, did you state the full set of assumptions and include complete proofs of all theoretical results?
+    
+    # 2b: Theoretical proofs
+    prompt_dict["2b"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you include complete proofs of all theoretical results?
+    Additional Context: {supporting_prompt_dict["2b"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 3a: Reproducibility (code/data)
+    prompt_dict["3a"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you include the code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL)?
     Additional Context: {supporting_prompt_dict["3a"]}
     Output Structure: """ + prompt_instruction
-
-    # 4a: Experimental Result Reproducibility
-    prompt_dict["4a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If the contribution is a dataset or model, what steps did you take to make your results reproducible or verifiable?
+    
+    # 3b: Training details
+    prompt_dict["3b"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you specify all the training details (e.g., data splits, hyperparameters, how they were chosen)?
+    Additional Context: {supporting_prompt_dict["3b"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 3c: Error bars
+    prompt_dict["3c"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you report error bars (e.g., with respect to the random seed after running experiments multiple times)?
+    Additional Context: {supporting_prompt_dict["3c"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 3d: Compute resources
+    prompt_dict["3d"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you include the total amount of compute and the type of resources used (e.g., type of GPUs, internal cluster, or cloud provider)?
+    Additional Context: {supporting_prompt_dict["3d"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 4a: Cite creators of existing assets
+    prompt_dict["4a"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: If your work uses existing assets, did you cite the creators?
     Additional Context: {supporting_prompt_dict["4a"]}
     Output Structure: """ + prompt_instruction
-
-    # 5a: Open Access to Data and Code
-    prompt_dict["5a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If you ran experiments, did you include the code, data, and instructions needed to reproduce the main experimental results?
+    
+    # 4b: Mention license of assets
+    prompt_dict["4b"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you mention the license of the assets?
+    Additional Context: {supporting_prompt_dict["4b"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 4c: New assets included
+    prompt_dict["4c"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you include any new assets either in the supplemental material or as a URL?
+    Additional Context: {supporting_prompt_dict["4c"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 4d: Consent from data subjects
+    prompt_dict["4d"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you discuss whether and how consent was obtained from people whose data you’re using/curating?
+    Additional Context: {supporting_prompt_dict["4d"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 4e: PII or offensive content
+    prompt_dict["4e"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you discuss whether the data you are using/curating contains personally identifiable information or offensive content?
+    Additional Context: {supporting_prompt_dict["4e"]}
+    Output Structure: """ + prompt_instruction
+    
+    # 5a: Full instructions to participants
+    prompt_dict["5a"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you include the full text of instructions given to participants and screenshots, if applicable?
     Additional Context: {supporting_prompt_dict["5a"]}
     Output Structure: """ + prompt_instruction
-
-    # 6a: Experimental Setting/ Details
-    prompt_dict["6a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If you ran experiments, did you specify all the training details, including data splits, hyperparameters, and how they were chosen?
-    Additional Context: {supporting_prompt_dict["6a"]}
+    
+    # 5b: Participant risks and IRB
+    prompt_dict["5b"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you describe any potential participant risks, with links to Institutional Review Board (IRB) approvals, if applicable?
+    Additional Context: {supporting_prompt_dict["5b"]}
     Output Structure: """ + prompt_instruction
-
-    # 7a: Experiment Statistical Significance
-    prompt_dict["7a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: Does the paper report error bars suitably and correctly defined, or other appropriate information about the statistical significance of the experiments?
-    Additional Context: {supporting_prompt_dict["7a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 8a: Experiments Compute Resource
-    prompt_dict["8a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: For each experiment, does the paper provide sufficient information on the computer resources used?
-    Additional Context: {supporting_prompt_dict["8a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 9a: Code of Ethics
-    prompt_dict["9a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: Have you read the NeurIPS Code of Ethics and ensured that your research conforms to it?
-    Additional Context: {supporting_prompt_dict["9a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 10a: Broader Impacts
-    prompt_dict["10a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If appropriate, did you discuss potential negative societal impacts of your work?
-    Additional Context: {supporting_prompt_dict["10a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 11a: Safeguards
-    prompt_dict["11a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: Do you have safeguards in place for responsible release of models with a high risk for misuse?
-    Additional Context: {supporting_prompt_dict["11a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 12a: Licenses
-    prompt_dict["12a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If you are using existing assets, did you cite the creators and respect the license and terms of use?
-    Additional Context: {supporting_prompt_dict["12a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 13a: Assets
-    prompt_dict["13a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If you are releasing new assets, did you document them and provide these details alongside the assets?
-    Additional Context: {supporting_prompt_dict["13a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 14a: Crowdsourcing and Research with Human Subjects
-    prompt_dict["14a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: If you used crowdsourcing or conducted research with human subjects, did you include the full text of instructions given to participants and screenshots, if applicable, as well as details about compensation?
-    Additional Context: {supporting_prompt_dict["14a"]}
-    Output Structure: """ + prompt_instruction
-
-    # 15a: IRB Approvals
-    prompt_dict["15a"] = f"""Introduction: Behave like you are the author of a paper you are going to submit to NeurIPS.
-    Question: Did you describe any potential participant risks and obtain Institutional Review Board (IRB) approvals, if applicable?
-    Additional Context: {supporting_prompt_dict["15a"]}
+    
+    # 5c: Participant compensation details
+    prompt_dict["5c"] = f"""Introduction: Behave like you are the author of a NeurIPS Datasets and Benchmarks submission.
+    Question: Did you include the estimated hourly wage paid to participants and the total amount spent on participant compensation?
+    Additional Context: {supporting_prompt_dict["5c"]}
     Output Structure: """ + prompt_instruction
 
     return prompt_dict
