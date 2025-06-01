@@ -2,7 +2,7 @@
   <img src="confready/public/confready.png" alt="ConfReady's Logo" width="300"/>
 </p>
 
-<p align="center">A simple tool to parse your paper and help fill conference checklists.</p>
+<p align="center">A simple tool to parse your paper and assist with conference checklists.</p>
 <p align="center">
 <img alt="version" src="https://img.shields.io/badge/version-0.2.0-green">
 <img alt="python" src="https://img.shields.io/badge/python-3.11-blue">
