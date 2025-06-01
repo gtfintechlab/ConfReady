@@ -8,19 +8,43 @@ Claims should match theoretical and experimental results in terms of generalizab
 The paper's contributions should be clearly stated, along with important assumptions and limitations.
 Aspirational goals can be used as motivation if it is clear they are not attained by the paper."""
 
+supporting_prompt_dict["1b"] =  
+
+supporting_prompt_dict["1c"] = 
+
+supporting_prompt_dict["1d"] = 
+
 supporting_prompt_dict["2a"] = """You are encouraged to create a separate "Limitations" section in your paper.
 The paper should point out strong assumptions and how robust the results are to violations of these assumptions.
 Reflect on how assumptions might be violated in practice and the implications.
 Reflect on the scope of your claims, e.g., testing on a few datasets or limited runs.
 Reflect on factors that influence performance, such as environmental conditions, resolution, or use in unintended contexts."""
 
+supporting_prompt_dict["2a"] = 
+
+supporting_prompt_dict["2b"] = 
+
 supporting_prompt_dict["3a"] = """If including theoretical results, state all assumptions clearly in the theorem statements.
 Include complete proofs either in the main paper or supplemental material, and provide a proof sketch for intuition if proofs are in the appendix.
 All theorems and lemmas that the proof relies upon should be properly referenced."""
 
+supporting_prompt_dict["3b"] = 
+
+supporting_prompt_dict["3c"] = 
+
+supporting_prompt_dict["3d"] = 
+
 supporting_prompt_dict["4a"] = """If the contribution is a dataset or model, describe the steps taken to ensure reproducibility.
 This may include releasing code and data, providing detailed instructions to replicate results, access to a model, or other means suitable for the research.
 For closed-source models, ensure that other researchers have some path to reproduce or verify the results."""
+
+supporting_prompt_dict["4b"]
+
+supporting_prompt_dict["4c"]
+
+supporting_prompt_dict["4d"]
+
+supporting_prompt_dict["4e"]
 
 supporting_prompt_dict["5a"] = """If you ran experiments, include the code, data, and instructions needed to reproduce the main experimental results.
 Details such as the exact command and environment needed should be specified.
