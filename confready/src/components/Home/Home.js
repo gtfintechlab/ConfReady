@@ -16,7 +16,7 @@ function Home() {
     if(checklistName == 'aclchecklist') {
       setListHeader(['A', 'B', 'C', 'D', 'E'])
     } else if(checklistName == 'neurips-checklist-a') {
-      setListHeader(['1', '2', '3', '4', '5'])
+      setListHeader(['1', '2', '3', '4', '5', '6'])
     } else if(checklistName == 'neurips-checklist-b') {
       setListHeader(['1', '2'])
     }
