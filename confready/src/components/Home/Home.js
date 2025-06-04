@@ -16,9 +16,13 @@ function Home() {
     if(checklistName == 'aclchecklist') {
       setListHeader(['A', 'B', 'C', 'D', 'E'])
     } else if(checklistName == 'neurips-checklist-a') {
-      setListHeader(['1', '2', '3', '4', '5', '6'])
+      setListHeader([
+        '1','2','3','4','5',
+        '6','7','8','9','10',
+        '11','12','13','14','15'
+      ]);
     } else if(checklistName == 'neurips-checklist-b') {
-      setListHeader(['1', '2'])
+      setListHeader(['1', '2', '3', '4', '5'])
     }
   }, [checklistName])
 

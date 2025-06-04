@@ -169,27 +169,34 @@ export default function Sidebar() {
   
     setChecklistName(selectedChecklist);
   
-    if (selectedChecklist === 'Association for Computational Linguistics (ACL)') {
+    if (selectedChecklist === 'ACL') {
       dispatch({ type: 'SET_CHECKLIST', payload: 'aclchecklist' });
       dispatch({type: 'SET_CURRENT_STAGE', payload: 'A'});
       dispatch({type: 'RESET_PROGRESS'})
       dispatch({type: 'SET_LLM_GENERATION', payload: 0});
       dispatch({type: 'RESET_BOTTOM_REACHED'});
-      dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'A':0,  'B': 0, 'C': 0, 'D': 0, 'E': 0}}); // small change here
+      dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'A':0,  'B': 0, 'C': 0, 'D': 0, 'E': 0}});
     } else if (selectedChecklist === 'NeurIPS') {
       dispatch({ type: 'SET_CHECKLIST', payload: 'neurips-checklist-a' });
       dispatch({type: 'SET_CURRENT_STAGE', payload: '1'});
       dispatch({type: 'RESET_PROGRESS'})
       dispatch({type: 'SET_LLM_GENERATION', payload: 0});
       dispatch({type: 'RESET_BOTTOM_REACHED'});
-      dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}});
-    } else if(selectedChecklist === 'NeurIPS Datasets and Benchmarks') {
+      dispatch({
+        type: 'SET_BOTTOM_INITIAL_STATE',
+        payload: {
+          '1': 0, '2': 0, '3': 0, '4': 0, '5': 0,
+          '6': 0, '7': 0, '8': 0, '9': 0, '10': 0,
+          '11': 0, '12': 0, '13': 0, '14': 0, '15': 0
+        }
+      });      
+    } else if(selectedChecklist === 'NeurIPS D&B') {
       dispatch({ type: 'SET_CHECKLIST', payload: 'neurips-checklist-b' });
       dispatch({type: 'SET_CURRENT_STAGE', payload: '1'});
       dispatch({type: 'RESET_PROGRESS'})
       dispatch({type: 'SET_LLM_GENERATION', payload: 0});
       dispatch({type: 'RESET_BOTTOM_REACHED'});
-      dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'1': 0, '2': 0,}});
+      dispatch({type: 'SET_BOTTOM_INITIAL_STATE', payload: {'1': 0, '2': 0, '3': 0, '4':0, '5': 0}});
     }
   };
 
