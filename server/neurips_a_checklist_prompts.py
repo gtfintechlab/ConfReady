@@ -132,4 +132,5 @@ def generate_prompt_dict_neurips_a():
     
     return prompt_dict
 
-__all__ = ['generate_prompt_dict_neurips_a']
+generate_prompt_dict_neurips = generate_prompt_dict_neurips_a
+__all__ = ['generate_prompt_dict_neurips_a', 'generate_prompt_dict_neurips']
