@@ -64,6 +64,13 @@ def upload_file():
     prompt_dict_choice = request.form.get('prompt_dict_choice', 'acl')  # Default to 'acl'
 
     try:
+        # ADDED: SECTION NAME INSTRUCTION TO AVOID HALLUCINATION
+        if prompt_dict_choice == 'acl':
+            os.environ['SECTION_NAME_INSTRUCTION'] = (
+                "Return a JSON object with exactly one field named \"section\", whose value is exactly one of the "
+                "section titles as it appears in the .tex. If no section applies, return {\"section\":\"None\"}. "
+                "Do not invent section names. "
+            )
         # Determine if we are dealing with a compressed file or a single .tex file
         if uploaded_file.filename.endswith(('.zip', '.tar.gz')):
             # Extract and filter for .tex files only

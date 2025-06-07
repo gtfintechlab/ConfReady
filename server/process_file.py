@@ -452,12 +452,17 @@ def process_file(filename, prompt_dict_choice):
     quoted_names = [f"'{name}'" for name in section_names]
     section_names_text = ', '.join(quoted_names[:-1]) + ', and ' + quoted_names[-1]
 
-    prompt_instruction_acl = f"""If the the answer is 'YES', provide the section name.
+    # ADD SECTION HALLUCINATION INSTRUCTION IF PRESENT IN ENV VAR  -----------------------------
+    hallucination_warning = os.getenv("SECTION_NAME_INSTRUCTION", "")
+
+    prompt_instruction_acl = hallucination_warning + f"""If the the answer is 'YES', provide the section name.
     Only return valid section names which are {section_names_text}.
     If the answer is 'NO' or 'NOT APPLICABLE', then output nothing.
     Provide a step by step justification for the answer.
     Format your response as a JSON object with 'answer', 'section name', and 'justification' as the keys.
     If the information isn't present, use 'unknown' as the value."""
+    # -------------------------------------------------------------------------------------------
+
 
     prompt_instruction_A3_acl = f"""If the the answer is 'YES', provide the section name.
     Only return valid section names which are '{combined_node_id}'.
@@ -570,6 +575,7 @@ def process_file(filename, prompt_dict_choice):
     """## Outputting JSON Response."""
 
     results = {}
+    valid_section_set = set(section_names)
 
     send_update("Running inference")
     for index ,key in enumerate(prompt_dict.keys()):
@@ -578,10 +584,22 @@ def process_file(filename, prompt_dict_choice):
         temp_dict = json.loads(response.response.replace('\\', '\\\\'))
         temp_dict['prompt'] = prompt_dict[key]
         temp_dict['llm'] = model_name
+        
+        # HALLUCINATION CHECK FOR ACL SECTION NAME RESPONSES  ----------------------------------
+        if prompt_dict_choice == "acl" and "section" in temp_dict:
+            returned_section = temp_dict.get("section", "").strip()
+            if returned_section not in valid_section_set and returned_section.lower() != "none":
+                temp_dict["hallucination_issue"] = (
+                    f"Invalid section name: '{returned_section}' is not in the actual section list."
+                )
+                temp_dict["section"] = "None"
+        # ----------------------------------------------------------------------------------------
+        if "hallucination_issue" in temp_dict:
+            print(f"Skipping hallucinated response for {key}: {temp_dict['hallucination_issue']}")
+            continue
         results[key] = temp_dict
 
     results['issues'] = issue_dict_acl
-
     send_update("Inferencing Complete")
 
     return results
