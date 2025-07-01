@@ -54,23 +54,6 @@ nest_asyncio.apply()
 
 from llama_index.core.schema import IndexNode, TextNode, NodeRelationship, RelatedNodeInfo
 
-# Current github issue here (rerank is still useful) :
-# https://github.com/run-llama/llama_index/issues/11093
-class SafeLLMRerank:
-    def __init__(self, choice_batch_size=5, top_n=2):
-        self.choice_batch_size = choice_batch_size
-        self.top_n = top_n
-        self.reranker = LLMRerank(
-            choice_batch_size=choice_batch_size,
-            top_n=top_n,
-        )
-
-    def postprocess_nodes(self, nodes, query_bundle):
-        try:
-            return self.reranker.postprocess_nodes(nodes, query_bundle)
-        except Exception as e:
-            print(f"Rerank issue: {e}")
-            return nodes
 
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.query_engine import MultiStepQueryEngine
@@ -94,6 +77,51 @@ def send_update(message):
             requests.post(update_url, json={'status': message})
         except Exception as e:
             print(f"Failed to send update: {e}")
+
+'''def process_file(filename, prompt_dict_choice):
+    # Get Environmental Variables
+    openai_api_key = os.getenv('OPENAI_API_KEY')
+    
+    # Read and process the LaTeX document
+    list_chunks, title = read_latex_doc(filename)
+    
+    # Get the appropriate prompt dictionary
+    if prompt_dict_choice == 'neurips_a':
+        prompt_dict = generate_prompt_dict_neurips()
+    elif prompt_dict_choice == 'neurips_b':
+        prompt_dict = generate_prompt_dict_neurips_b()
+    else:  # default to acl
+        prompt_dict = generate_prompt_dict_acl()
+    
+    responses = {}
+    
+    for prompt_id, prompt in prompt_dict.items():
+        # Create a query engine with section filtering for this specific prompt
+        query_engine = create_query_engine(list_chunks, title, prompt_id)
+        
+        try:
+            # Get response from the query engine
+            response = query_engine.query(prompt)
+            
+            # Parse the response
+            try:
+                response_text = str(response)
+                response_json = json.loads(response_text)
+                responses[prompt_id] = response_json
+            except json.JSONDecodeError:
+                responses[prompt_id] = {
+                    "answer": "Error",
+                    "section": "None",
+                    "justification": "Failed to parse response"
+                }
+        except Exception as e:
+            responses[prompt_id] = {
+                "answer": "Error",
+                "section": "None",
+                "justification": f"Query Engine Error: {str(e)}"
+            }
+    
+    return responses'''
 
 def process_file(filename, prompt_dict_choice):
 
@@ -552,9 +580,19 @@ def process_file(filename, prompt_dict_choice):
     def is_limitation_node(node):
         return 'Limitation' in node.node_id
 
+    def is_abstract_or_intro_node(node):
+        return any(term in node.node_id for term in ["Abstract", "Introduction"])
+
+
     # Filter the nodes based on the criterion
     A1_filtered_nodes = {node_id: node for node_id, node in all_nodes_dict.items() if is_limitation_node(node)}
     vector_retriever_chunk = index.as_retriever(similarity_top_k=40)
+
+    A3_filtered_nodes = {
+        node_id: node for node_id, node in all_nodes_dict.items()
+        if is_abstract_or_intro_node(node)
+    }   
+
 
     recursive_retriever = RecursiveRetriever(
         "vector",
@@ -603,3 +641,90 @@ def process_file(filename, prompt_dict_choice):
     send_update("Inferencing Complete")
 
     return results
+
+class SectionBasedNodePostprocessor(BaseNodePostprocessor):
+    """A node postprocessor that filters nodes based on their source section."""
+    
+    def __init__(self, target_sections):
+        """
+        Initialize the postprocessor.
+        Args:
+            target_sections: List of section names to filter for (case-insensitive)
+        """
+        self.target_sections = [s.lower() for s in target_sections]
+    
+    def postprocess_nodes(self, nodes, query_bundle):
+        """Filter nodes to only include those from target sections."""
+        filtered_nodes = []
+        for node in nodes:
+            # Check if node has metadata about its section
+            section = node.metadata.get('section', '').lower()
+            if any(target in section for target in self.target_sections):
+                filtered_nodes.append(node)
+        return filtered_nodes
+
+def create_section_aware_nodes(chunk, title):
+    """
+    Create nodes from a chunk with section metadata.
+    """
+    # Extract section title from the chunk
+    section_pattern = re.compile(r'\\(?:section|subsection)\*?\{([^}]*)\}')
+    section_match = section_pattern.search(chunk)
+    section_title = section_match.group(1) if section_match else "Unknown Section"
+    
+    # Create node with section metadata
+    return TextNode(
+        text=chunk,
+        metadata={
+            "source": title,
+            "section": section_title
+        }
+    )
+
+def get_section_filters(prompt_id):
+    """
+    Get the list of target sections for a specific prompt ID.
+    Returns a list of section names to filter for.
+    """
+    section_mapping = {
+        # NeurIPS A checklist mappings
+        "2": ["limitations", "discussion"],  # Limitations
+        "3": ["theory", "theoretical analysis", "proofs"],  # Theoretical results
+        "10": ["broader impacts", "societal impact", "ethical considerations"],  # Broader impacts
+        
+        # NeurIPS B checklist mappings
+        "1b": ["limitations", "discussion"],
+        "2a": ["theory", "theoretical analysis", "assumptions"],
+        "2b": ["theory", "theoretical analysis", "proofs"],
+        "1c": ["broader impacts", "societal impact", "ethical considerations"]
+    }
+    
+    return section_mapping.get(prompt_id, [])
+
+def create_query_engine(chunks, title, prompt_id=None):
+    """
+    Create a query engine with appropriate section filtering if needed.
+    """
+    # Create section-aware nodes
+    nodes = [create_section_aware_nodes(chunk, title) for chunk in chunks]
+    
+    # Create the base index
+    index = VectorStoreIndex(nodes)
+    
+    # Initialize postprocessors
+    postprocessors = []
+    
+    # Add section filter if prompt_id is provided and has section mapping
+    if prompt_id:
+        target_sections = get_section_filters(prompt_id)
+        if target_sections:
+            postprocessors.append(SectionBasedNodePostprocessor(target_sections))
+    
+    # Add reranker
+    postprocessors.append(SafeLLMRerank(choice_batch_size=5, top_n=2))
+    
+    # Create and return the query engine
+    return index.as_query_engine(
+        node_postprocessors=postprocessors,
+        response_mode="tree_summarize",
+    )
