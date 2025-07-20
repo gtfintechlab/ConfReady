@@ -133,16 +133,7 @@ export default function Sidebar() {
       setLoadingFile(false);
       return;
     }
-    let file_size = fileUploaded.size;
-
     setLoadingFile(true);
-
-    if (file_size > 10000000) {
-      alert("File size should not exceed 10MB.");
-      setLoadingFile(false);
-      return;
-    }
-
     await handleFileUpload(fileUploaded);
   };
 
@@ -154,16 +145,7 @@ export default function Sidebar() {
       setLoadingFile(false);
       return;
     }
-    let file_size = fileUploaded.size;
-
     setLoadingFile(true);
-
-    if (file_size > 5000000) {
-      alert("File size should not exceed 5MB.");
-      setLoadingFile(false);
-      return;
-    }
-
     await handleFileUpload(fileUploaded);
   };
 
