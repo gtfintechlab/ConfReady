@@ -2,8 +2,8 @@ from collections import OrderedDict
 
 # ADDED: CONSTANT TO REMIND MODEL TO ONLY USE REAL SECTION NAMES
 SECTION_NAME_INSTRUCTION = (
-    "Return a JSON object with exactly one field named \"section\", whose value is exactly one of the section titles "
-    "as it appears in the .tex. If no section applies, return {\"section\":\"None\"}. Do not invent section names. "
+    "Return a JSON object with exactly one field named \"section name\", whose value is exactly one of the section titles "
+    "as it appears in the .tex. If no section applies, return {\"section name\":\"None\"}. Do not invent section names. "
 )
 
 # Supporting information is taken from https://aclrollingreview.org/responsibleNLPresearch/
