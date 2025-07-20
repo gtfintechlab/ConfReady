@@ -1,3 +1,3 @@
-from confready.cli import main
+from ConfReady.cli import main
 
 __all__ = ["main"]

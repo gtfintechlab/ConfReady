@@ -51,7 +51,7 @@ config = {
     "use_llm": True,
 }
 config_parser = ConfigParser(config)
-TOGETHER_CLASS_PATH = "confready.server.marker_together_service.TogetherService"
+TOGETHER_CLASS_PATH = "ConfReady.server.marker_together_service.TogetherService"
 
 # Optional: register config for compatibility
 assign_config(TOGETHER_CLASS_PATH, {
