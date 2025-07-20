@@ -1,0 +1,28 @@
+Multi-CLS BERT: An Efficient Alternative to Traditional Ensembling
+Label-Aware Hyperbolic Embeddings for Fine-grained Emotion Classification
+Explainable Recommendation with Personalized Review Retrieval and Aspect Learning
+NLPeer: A Unified Resource for the Computational Study of Peer Review
+Optimal Transport for Unsupervised Hallucination Detection in Neural Machine Translation
+Dual Cache for Long Document Neural Coreference Resolution
+Analyzing and Reducing the Performance Gap in Cross-Lingual Transfer with Fine-tuning Slow and Fast
+HAUSER: Towards Holistic and Automatic Evaluation of Simile Generation
+Zero-shot Faithful Factual Error Correction
+An Extensible Plug-and-Play Method for Multi-Aspect Controllable Text Generation
+FactKG: Fact Verification via Reasoning on Knowledge Graphs
+miCSE: Mutual Information Contrastive Learning for Low-shot Sentence Embeddings
+Multi-modal Action Chain Abductive Reasoning
+Multiview Identifiers Enhanced Generative Retrieval
+From Dogwhistles to Bullhorns: Unveiling Coded Rhetoric with Language Models
+Reasoning with Language Model Prompting: A Survey
+Single Sequence Prediction over Reasoning Graphs for Multi-hop QA
+Accelerating Transformer Inference for Translation via Parallel Decoding
+MidMed: Towards Mixed-Type Dialogues for Medical Consultation
+DT-Solver: Automated Theorem Proving with Dynamic-Tree Sampling Guided by Proof-level Value Function
+Query Structure Modeling for Inductive Logical Reasoning Over Knowledge Graphs
+Double-Branch Multi-Attention based Graph Neural Network for Knowledge Graph Completion
+SESCORE2: Learning Text Generation Evaluation via Synthesizing Realistic Mistakes
+ConFEDE: Contrastive Feature Decomposition for Multimodal Sentiment Analysis
+Few-Shot Document-Level Event Argument Extraction
+ESCOXLM-R: Multilingual Taxonomy-driven Pre-training for the Job Market Domain
+HiTIN: Hierarchy-aware Tree Isomorphism Network for Hierarchical Text Classification
+PEIT: Bridging the Modality Gap with Pre-trained Models for End-to-End Image Translation

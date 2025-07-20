@@ -1,0 +1,60 @@
+The CRINGE Loss: Learning what language not to model
+On-the-fly Cross-lingual Masking for Multilingual Pre-training
+Multilingual Event Extraction from Historical Newspaper Adverts
+Few-shot Adaptation Works with UnpredicTable Data
+Alleviating Over-smoothing for Unsupervised Sentence Representation
+DSEE: Dually Sparsity-embedded Efficient Tuning of Pre-trained Language Models
+MDACE: MIMIC Documents Annotated with Code Evidence
+Advancing Multi-Criteria Chinese Word Segmentation Through Criterion Classification and Denoising
+A dynamic programming algorithm for span-based nested named-entity recognition in O(n^2)
+From Ultra-Fine to Fine: Fine-tuning Ultra-Fine Entity Typing Models to Fine-grained
+Modeling What-to-ask and How-to-ask for Answer-unaware Conversational Question Generation
+Measuring the Instability of Fine-Tuning
+Automatic Annotation of Direct Speech in Written French Narratives
+HuCurl: Human-induced Curriculum Discovery
+MASSIVE: A 1M-Example Multilingual Natural Language Understanding Dataset with 51 Typologically-Diverse Languages
+On the Evaluation of Neural Selective Prediction Methods for Natural Language Processing
+Neural Unsupervised Reconstruction of Protolanguage Word Forms
+HermEs: Interactive Spreadsheet Formula Prediction via Hierarchical Formulet Expansion
+InfoMetIC: An Informative Metric for Reference-free Image Caption Evaluation
+DarkBERT: A Language Model for the Dark Side of the Internet
+Few-shot Reranking for Multi-hop QA via Language Model Prompting
+Improving the robustness of NLI models with minimax training
+Language Detoxification with Attribute-Discriminative Latent Space
+On Complementarity Objectives for Hybrid Retrieval
+TART: Improved Few-shot Text Classification Using Task-Adaptive Reference Transformation
+Text Adversarial Purification as Defense against Adversarial Attacks
+Open-ended Long Text Generation via Masked Language Modeling
+DaMSTF: Domain Adversarial Learning Enhanced Meta Self-Training for Domain Adaptation
+Distantly Supervised Course Concept Extraction in MOOCs with Academic Discipline
+HyperMixer: An MLP-based Low Cost Alternative to Transformers
+Just Like a Human Would, Direct Access to Sarcasm Augmented with Potential Result and Reaction
+Large-scale Lifelong Learning of In-context Instructions and How to Tackle It
+Using Neural Machine Translation for Generating Diverse Challenging Exercises for Language Learner
+Cross-modal Attention Congruence Regularization for Vision-Language Relation Alignment
+Using Domain Knowledge to Guide Dialog Structure Induction via Neural Probabilistic Soft Logic
+VendorLink: An NLP approach for Identifying & Linking Vendor Migrants & Potential Aliases on Darknet Markets
+Tree-Based Representation and Generation of Natural and Mathematical Language
+When and how to paraphrase for named entity recognition?
+Peeking inside the black box: A Commonsense-aware Generative Framework for Explainable Complaint Detection
+Understanding Factual Errors in Summarization: Errors, Summarizers, Datasets, Error Detectors
+UniEvent: Unified Generative Model with Multi-Dimensional Prefix for Zero-Shot Event-Relational Reasoning
+A New Aligned Simple German Corpus
+Simple and Effective Unsupervised Speech Translation
+Towards Unifying Multi-Lingual and Cross-Lingual Summarization
+ReCode: Robustness Evaluation of Code Generation Models
+Elaboration-Generating Commonsense Question Answering at Scale
+GreenKGC: A Lightweight Knowledge Graph Completion Method
+VSTAR: A Video-grounded Dialogue Dataset for Situated Semantic Understanding with Scene and Topic Transitions
+Learning Action Conditions from Instructional Manuals for Instruction Understanding
+S2ynRE: Two-stage Self-training with Synthetic data for Low-resource Relation Extraction
+Introducing Semantics into Speech Encoders
+A Universal Discriminator for Zero-Shot Generalization
+Learning New Skills after Deployment: Improving open-domain internet-driven dialogue with human feedback
+KILM: Knowledge Injection into Encoder-Decoder Language Models
+Tailor: A Soft-Prompt-Based Approach to Attribute-Based Controlled Text Generation
+Prototype-Guided Pseudo Labeling for Semi-Supervised Text Classification
+Word sense extension
+Seen to Unseen: Exploring Compositional Generalization of Multi-Attribute Controllable Dialogue Generation
+A Survey for Efficient Open Domain Question Answering
+Abductive Commonsense Reasoning Exploiting Mutually Exclusive Explanations
