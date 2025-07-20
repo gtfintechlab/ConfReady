@@ -86,7 +86,7 @@ Each question has two fields:
 
 ##  Edge‑Case Summary
 
-The script flags five notorious edge cases:
+The  `table.py` script flags five  edge cases:
 
 1. **No Checklist** – `have_checklist = "No"`.
 2. **Blank Checklist** – authors marked “Yes” but left every answer blank.
@@ -94,14 +94,16 @@ The script flags five notorious edge cases:
 4. **No Section Names** – answers say `[Yes]`/`[No]` but don’t cite any paper section.
 5. **Not on arXiv** – `arxiv_link` missing or empty.
 
-|                   | ACL Fnd Short | ACL Fnd Long | ACL Main Short | ACL Main Long 
-|:------------------|-------------:|------------:|--------------:|-------------:|-------------:|------------:|
-| **Total Papers**      | 189 | 712 | 164 | 910 | 
-| **No Checklist**      | 8 | 19 | 3 | 15 |
-| **Blank Checklist**   | 8 | 35 | 10 | 60 |
-| **All Yes Responses** | 7 | 15 | 3 | 28 | 
-| **No Section Names**  | 5 | 7 | 2 | 9 | 
-| **Not on arXiv**      | 50 | 190 | 37 | 190 | 
+This table summarizes common checklist issues across ACL tracks:
+
+|                    | ACL Fnd Short | ACL Fnd Long | ACL Main Short | ACL Main Long |
+|:-------------------|--------------:|-------------:|----------------:|---------------:|
+| **Total Papers**      | 189           | 712          | 164             | 910            |
+| **No Checklist**      | 8             | 19           | 3               | 15             |
+| **Blank Checklist**   | 8             | 35           | 10              | 60             |
+| **All Yes Responses** | 7             | 15           | 3               | 28             |
+| **No Section Names**  | 5             | 7            | 2               | 9              |
+| **Not on arXiv**      | 50            | 190          | 37              | 190            |
 
 > **Why it matters:** spotting these patterns helps triage papers that need manual follow‑up. 
 ---
