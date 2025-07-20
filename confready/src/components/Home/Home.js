@@ -107,25 +107,25 @@ function Home() {
               return (
                 <div key={id}>
                   <h1 className='text-3xl mb-6 text-center font-thin'><b>SECTION {id}</b></h1>
-                  <div className='w-full flex align-center justify-center'>
-                  <div className='flex ease-in duration-300 justify-center items-center bg-gray-500 w-fit rounded-full'>
-        {listHeader.map(stage => (
-          <div
-          key={stage}
-          className={`flex items-center text-xl py-1 font-semibold px-3 ${currentStage === stage ? 'bg-gray-700 text-white opacity-100' : 'bg-gray-500 text-white opacity-50'} rounded-full cursor-pointer`}
-          onClick={() => dispatch({ type: 'SET_CURRENT_STAGE', payload: stage })}
-          style={{ transition: 'all 0.3s ease-in-out' }} // Add transition here
-        >
-            {stage}
-            <div className="relative h-1 bg-gray-400 rounded-full overflow-hidden mx-4 w-24">
-              <div
-                className="progress-bar h-1 bg-white z-10"
-                style={{ width: `${sectionProgress[stage] || 0}%` }}
-              ></div>
+                  <div className="w-full flex align-center justify-center">
+        <div className="flex ease-in duration-300 justify-center items-center bg-gray-500 w-fit rounded-full overflow-x-auto whitespace-nowrap" style={{ transition: 'all 0.3s ease-in-out' }}>
+          {listHeader.map(stage => (
+            <div
+              key={stage}
+              className={`flex items-center text-xl py-1 font-semibold px-3 ${currentStage === stage ? 'bg-gray-700 text-white opacity-100' : 'bg-gray-500 text-white opacity-50'} rounded-full cursor-pointer`}
+              onClick={() => dispatch({ type: 'SET_CURRENT_STAGE', payload: stage })}
+              style={{ transition: 'all 0.3s ease-in-out' }}
+            >
+              {stage}
+              <div className="relative h-1 bg-gray-400 rounded-full overflow-hidden mx-4 w-24">
+                <div
+                  className="progress-bar h-1 bg-white z-10"
+                  style={{ width: `${sectionProgress[stage] || 0}%` }}
+                ></div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </div>
       <div className='p-24 pb-10 pt-20'>
                   <h1 className='times text-2xl font-bold'>{id} | <span className='font-normal'>{quest.title}</span></h1>

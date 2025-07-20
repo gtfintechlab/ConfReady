@@ -6,8 +6,8 @@ import Tooltip from '@mui/material/Tooltip';
 function Question({ id, question_data, isRoot }) {
   const { state, dispatch } = useStore();
   const { responses, issues } = state;
-  const initialResponse = responses[id] || { choice: false, text: '' };
-  let tempResponse = initialResponse.s_name + ". " +initialResponse.text;
+  const initialResponse = responses[id] || { choice: false, text: '', s_name: '' };
+  let tempResponse = initialResponse.text || '';
   const [response, setResponse] = useState(tempResponse);
   const [choice, setChoice] = useState(initialResponse.choice);
 

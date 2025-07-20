@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import confReadyLogo from '../../assets/confready.png';
-import AuthModal from '../AuthModal/AuthModal';
 import { useStore } from '../../store';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDropzone } from 'react-dropzone';
@@ -63,6 +62,12 @@ export default function Sidebar() {
   };
 
   const handleFileUpload = async (file) => {
+    console.log("handleFileUpload file:", file);
+    if (!file || file.size === 0) {
+      alert("No file selected or file is empty. Please select a valid file.");
+      setLoadingFile(false);
+      return;
+    }
     const formData = new FormData();
     formData.append('file', file);
 
@@ -102,7 +107,7 @@ export default function Sidebar() {
             payload: {
               id: key,
               response: {
-                choice: section_name === 'None' ? false : true,
+                choice: result[key]['answer'] == 'YES' ? true : false,
                 text: section_name + ". " + result[key]['justification'],
                 s_name: section_name,
               },
@@ -122,6 +127,12 @@ export default function Sidebar() {
 
   const handleChange = async (event) => {
     const fileUploaded = event.target.files[0];
+    console.log("handleChange fileUploaded:", fileUploaded);
+    if (!fileUploaded || fileUploaded.size === 0) {
+      alert("No file selected or file is empty. Please select a valid file.");
+      setLoadingFile(false);
+      return;
+    }
     let file_size = fileUploaded.size;
 
     setLoadingFile(true);
@@ -137,6 +148,12 @@ export default function Sidebar() {
 
   const handleFileChangeDrop = async (filesAccepted) => {
     const fileUploaded = filesAccepted[0];
+    console.log("handleFileChangeDrop fileUploaded:", fileUploaded);
+    if (!fileUploaded || fileUploaded.size === 0) {
+      alert("No file selected or file is empty. Please select a valid file.");
+      setLoadingFile(false);
+      return;
+    }
     let file_size = fileUploaded.size;
 
     setLoadingFile(true);
@@ -262,8 +279,6 @@ return (
       <h1 className="text-white text-2xl m-6 animate-pulse">{loadingStage}</h1>
     </div>
 
-    <AuthModal open={open} onClose={handleClose} />
-
     <aside
       id="logo-sidebar"
       style={{ borderTopRightRadius: 30 }}
@@ -375,7 +390,7 @@ return (
       >
         <button onClick={() => {
           if(state.llmGenerated != 1) {
-            window.alert("Please upload .tex or .tar.gz file in step 2");
+            window.alert("Please upload .tex, .pdf or .tar.gz file in step 2");
           } else {
             dispatch({type: 'SET_SIDEBAR_STAGE', payload: 3});
           }

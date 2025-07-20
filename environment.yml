@@ -16,5 +16,9 @@ dependencies:
     - openai
     - pylatexenc # read latex (.tex) files
     - python-dotenv
+    - scikit-learn
+    - together
+    - bm25s
+    - json-repair
 
 
