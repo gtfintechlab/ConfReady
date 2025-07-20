@@ -4,7 +4,7 @@ This dataset contains checklist evaluations for papers from the **ACL 2023 confe
 
 ---
 
-## 1. `ACL Main Long`
+## `ACL Main Long`
 
 - **Papers**: 910  
 - **Description**: Long-form papers submitted to ACL 2023, with responses to 22 reproducibility-related questions.
@@ -84,7 +84,7 @@ Each question has two fields:
 
 ---
 
-## 🕵️‍♀️ Edge‑Case Summary
+##  Edge‑Case Summary
 
 The script flags five notorious edge cases:
 
