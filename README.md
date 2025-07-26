@@ -27,11 +27,20 @@ An overview of ConfReady is presented in this [YouTube video](https://www.youtub
 
 ## Installation
 
+You can install ConfReady in two ways.
+
 ### Prerequisites
 
-- Conda (Miniconda or Anaconda)
+- Python 3.11+
+- [NPM (Node.js](https://nodejs.org/). This is required for the web interface.
 
-### Steps
+### PyPy (Recommended)
+
+```
+pip install confready
+```
+
+### GitHub Installation Steps
 
 1. **Clone the repository** and navigate to the project directory:
 
