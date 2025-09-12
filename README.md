@@ -3,6 +3,8 @@
 </p>
 
 <p align="center">A simple tool to parse your paper and assist with conference checklists.</p>
+<p align="center"><em>Accepted at EMNLP Demonstrations 2025</em></p>
+
 <p align="center">
 <img alt="version" src="https://img.shields.io/badge/version-0.2.0-green">
 <img alt="python" src="https://img.shields.io/badge/python-3.11-blue">
@@ -10,6 +12,19 @@
 </p>
 <div align="center">
 <hr>
+
+<p align="center">
+  <a href="https://www.linkedin.com/in/michaelgalarnyk/">Michael Galarnyk*</a>,
+  <a href="https://www.linkedin.com/in/rutwikroutu/">Rutwik Routu*</a>,
+  <a href="https://www.linkedin.com/in/vidhyakshayakannan/">Vidhyakshaya Kannan*</a>,
+  <a href="https://www.linkedin.com/in/koshabheda/">Kosha Bheda</a>,<br/>
+  <a href="https://www.linkedin.com/in/prasunbanerjee04/">Prasun Banerjee</a>,
+  <a href="https://shahagam4.github.io/">Agam Shah</a>,
+  <a href="https://www.scheller.gatech.edu/directory/faculty/chava/index.html">Sudheer Chava</a><br/>
+Georgia Institute of Technology<br/>
+</p>
+
+<p align="center"><em>*Authors contributed equally</em></p>
 
 [Installation](#installation) | [Documentation](https://confready-docs.vercel.app/docs/introduction)
 
@@ -86,3 +101,11 @@ pip install confready
 ## Documentation
 
 We welcome contributions to this library and encourage potential contributors to start by reviewing our [documentation](https://confready-docs.vercel.app/docs/introduction) to familiarize themselves with the codebase's format and structure. Once you have a solid understanding, feel free to submit a pull request. We’re excited to collaborate with new contributors and drive this project forward together.
+
+## Citation
+
+Coming soon!
+
+```bibtex
+
+```
