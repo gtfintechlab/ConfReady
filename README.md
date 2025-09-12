@@ -1,17 +1,12 @@
-<p align="center">
-  <img src="confready/public/confready.png" alt="ConfReady's Logo" width="300"/>
-</p>
-
-<p align="center">A simple tool to parse your paper and assist with conference checklists.</p>
-<p align="center"><em>Accepted at EMNLP Demonstrations 2025</em></p>
+<h1 align="center">ConfReady: RAG-Based Assistant for Conference Checklists</h1>
 
 <p align="center">
-<img alt="version" src="https://img.shields.io/badge/version-0.2.0-green">
-<img alt="python" src="https://img.shields.io/badge/python-3.11-blue">
-<img alt="license" src="https://img.shields.io/badge/license-AGPL%20v3-blue">
+  <a href="https://youtu.be/sNhpKJLfArc?si=65QDrhk0uJRMPSBP"><img src="https://img.shields.io/badge/Video-Watch-red"></a>
+  <a href="https://confready-docs.vercel.app/docs/introduction"><img src="https://img.shields.io/badge/Docs-View-blue"></a>
+  <a href="https://pypi.org/project/confready/"><img src="https://img.shields.io/badge/PyPI-0.2.0-green"></a>
+  <img src="https://img.shields.io/badge/python-3.11-blue">
+  <img src="https://img.shields.io/badge/license-AGPL%20v3-blue">
 </p>
-<div align="center">
-<hr>
 
 <p align="center">
   <a href="https://www.linkedin.com/in/michaelgalarnyk/">Michael Galarnyk*</a>,
@@ -21,15 +16,10 @@
   <a href="https://www.linkedin.com/in/prasunbanerjee04/">Prasun Banerjee</a>,
   <a href="https://shahagam4.github.io/">Agam Shah</a>,
   <a href="https://www.scheller.gatech.edu/directory/faculty/chava/index.html">Sudheer Chava</a><br/>
-Georgia Institute of Technology<br/>
+  Georgia Institute of Technology
 </p>
 
 <p align="center"><em>*Authors contributed equally</em></p>
-
-[Installation](#installation) | [Documentation](https://confready-docs.vercel.app/docs/introduction)
-
-<hr>
-</div>
 
 ## Overview
 
@@ -37,8 +27,6 @@ This repository:
 
 - is **an easy-to-use Llama or GPT powered web interface** which can be used to empower authors to reflect on their work and assist authors with conference checklists
 - is **highly flexible** and offers various adaptations and possibilities such as prompt customization, enabling developers to continue developing this tool for additional conferences
-
-An overview of ConfReady is presented in this [YouTube video](https://www.youtube.com/watch?v=sNhpKJLfArc).
 
 ## Installation
 
@@ -104,7 +92,7 @@ We welcome contributions to this library and encourage potential contributors to
 
 ## Citation
 
-Coming soon!
+ConfReady was accepted at EMNLP Demonstrations 2025. 
 
 ```bibtex
 
