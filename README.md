@@ -1,4 +1,4 @@
-<h1 align="center">ConfReady: RAG-Based Assistant for Conference Checklists</h1>
+<h1 align="center">ConfReady: A RAG based Assistant and Dataset for Conference Checklist Responses</h1>
 
 <p align="center">
   <a href="https://youtu.be/sNhpKJLfArc?si=65QDrhk0uJRMPSBP"><img src="https://img.shields.io/badge/Video-Watch-red"></a>
