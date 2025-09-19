@@ -37,7 +37,7 @@ You can install ConfReady in two ways.
 - Python 3.11+
 - [NPM (Node.js](https://nodejs.org/). This is required for the web interface.
 
-### PyPy (Recommended)
+### PyPI (Recommended)
 
 ```
 pip install confready
