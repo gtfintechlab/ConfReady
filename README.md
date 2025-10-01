@@ -95,5 +95,13 @@ We welcome contributions to this library and encourage potential contributors to
 ConfReady was accepted at EMNLP Demonstrations 2025. 
 
 ```bibtex
-
+@misc{galarnyk2025confreadyragbasedassistant,
+      title={ConfReady: A RAG based Assistant and Dataset for Conference Checklist Responses}, 
+      author={Michael Galarnyk and Rutwik Routu and Vidhyakshaya Kannan and Kosha Bheda and Prasun Banerjee and Agam Shah and Sudheer Chava},
+      year={2025},
+      eprint={2408.04675},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2408.04675}, 
+}
 ```
